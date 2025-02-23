@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdatePasswordRequest {
+public class SetPasswordRequest {
     @NotNull(message = "email must not be null")
     @NotBlank(message = "email must not be empty")
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", message = "email is not valid")

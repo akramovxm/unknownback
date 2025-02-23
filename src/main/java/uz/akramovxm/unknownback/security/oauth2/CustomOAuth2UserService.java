@@ -44,7 +44,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         User user;
         try {
-            user = userService.findByEmail(oAuth2UserInfo.getEmail());
+            user = userService.getByEmail(oAuth2UserInfo.getEmail());
             if (user.isLocked()) {
                 throw new OAuth2AuthenticationProcessingException("User account is locked");
             }

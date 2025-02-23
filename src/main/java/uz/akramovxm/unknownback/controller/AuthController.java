@@ -41,19 +41,19 @@ public class AuthController {
         return new AuthResponse("Verification completed successfully");
     }
 
-    @PostMapping("/resend-code")
+    @PostMapping("/send-code")
     @ResponseStatus(HttpStatus.OK)
-    public AuthResponse resendCode(@Valid @RequestBody ResendCodeRequest request) {
+    public AuthResponse sendCode(@Valid @RequestBody SendCodeRequest request) {
         authService.sendCode(request);
 
-        return new AuthResponse("The verification code has been re-sent. Check your mail");
+        return new AuthResponse("The verification code has been sent. Check your mail");
     }
 
-    @PostMapping("/update-password")
+    @PostMapping("/set-password")
     @ResponseStatus(HttpStatus.OK)
-    public AuthResponse updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
-        userService.updatePassword(request);
+    public AuthResponse setPassword(@Valid @RequestBody SetPasswordRequest request) {
+        userService.setPassword(request);
 
-        return new AuthResponse("Password updated successfully");
+        return new AuthResponse("Password set successfully");
     }
 }

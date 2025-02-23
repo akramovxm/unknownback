@@ -55,7 +55,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadCredentials(BadCredentialsException e) {
-        return new ErrorResponse(e.getMessage());
+        return new ErrorResponse("Email and/or password is incorrect");
     }
 
     @ExceptionHandler(RequestBodyNotValidException.class)

@@ -53,7 +53,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        User user = userService.findByEmail(userDetails.getUsername());
+        User user = userService.getByEmail(userDetails.getUsername());
 
         Map<String, Object> claims = Map.of(
                 "authorities", user.getAuthorities(),

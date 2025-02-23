@@ -7,9 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.akramovxm.unknownback.dto.request.*;
-import uz.akramovxm.unknownback.entity.AuthProvider;
-import uz.akramovxm.unknownback.entity.Role;
-import uz.akramovxm.unknownback.entity.User;
+import uz.akramovxm.unknownback.entity.*;
 import uz.akramovxm.unknownback.exception.RequestBodyNotValidException;
 import uz.akramovxm.unknownback.exception.ResourceNotFoundException;
 import uz.akramovxm.unknownback.security.jwt.JWTProvider;
@@ -37,7 +35,7 @@ public class AuthServiceImpl implements AuthService {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
-        User user = userService.findByEmail(request.getEmail());
+        User user = userService.getByEmail(request.getEmail());
 
         Map<String, Object> claims = Map.of(
                 "authorities", user.getAuthorities(),
@@ -63,42 +61,48 @@ public class AuthServiceImpl implements AuthService {
                 false
         );
 
-        sendCode(new ResendCodeRequest(request.getEmail()));
+        sendCode(new SendCodeRequest(request.getEmail()));
     }
 
+    @Transactional
     @Override
     public void verify(VerifyRequest request) {
-        User user = userService.findByEmail(request.getEmail());
-        String verifyCode = user.getVerifyCode();
+        User user = userService.getByEmail(request.getEmail());
 
-        if (verifyCode == null || !verifyCode.equals(request.getVerifyCode())) {
-            throw new MailAuthenticationException("The verification code is invalid");
+        VerifyCode verifyCode = user.getVerifyCode();
+
+        if (verifyCode == null || !verifyCode.getCode().equals(request.getVerifyCode())) {
+            throw new MailAuthenticationException("Verification Failed");
         }
 
         user.setVerifyCode(null);
-
         user.setEnabled(true);
 
         userService.save(user);
     }
 
+    @Transactional
     @Override
-    public void sendCode(ResendCodeRequest request) {
+    public void sendCode(SendCodeRequest request) {
         User user;
 
         try {
-            user = userService.findByEmail(request.getEmail());
+            user = userService.getByEmail(request.getEmail());
         } catch (ResourceNotFoundException e) {
             throw new RequestBodyNotValidException(Map.of("email", "Email not found"));
         }
-
         Random random = new Random();
-        String verifyCode = String.format("%04d", random.nextInt(10000));
+        String code = String.format("%04d", random.nextInt(10000));
 
-        user.setVerifyCode(verifyCode);
+        if (user.getVerifyCode() == null) {
+            VerifyCode verifyCode = new VerifyCode(user, code);
+            user.setVerifyCode(verifyCode);
+        } else {
+            user.getVerifyCode().setCode(code);
+        }
 
         userService.save(user);
 
-        messageService.sendVerifyCode(request.getEmail(), verifyCode);
+        messageService.sendVerifyCode(request.getEmail(), code);
     }
 }

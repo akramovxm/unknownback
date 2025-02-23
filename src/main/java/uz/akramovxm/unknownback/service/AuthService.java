@@ -10,5 +10,5 @@ public interface AuthService {
 
     void verify(VerifyRequest request);
 
-    void sendCode(ResendCodeRequest request);
+    void sendCode(SendCodeRequest request);
 }

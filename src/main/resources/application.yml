@@ -13,8 +13,6 @@ spring:
   sql:
     init:
       mode: always
-  liquibase:
-    enabled: false
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -26,6 +24,14 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
+        search:
+          backend:
+            analysis:
+              configurer: uz.akramovxm.unknownback.config.AnalyzerConfig
+            type: lucene
+            directory:
+              type: local-filesystem
+              root: ./indexes
     defer-datasource-initialization: true
     show-sql: true
   mail:
