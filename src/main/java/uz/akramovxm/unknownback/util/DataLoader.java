@@ -68,19 +68,32 @@ public class DataLoader implements CommandLineRunner {
                 true
         );
 
-        for (int i = 2; i <= 20; i++) {
-            userService.create(
-                    "pupil" + i,
-                    "pupil" + i,
-                    "pupil" + i + "@mail.com",
-                    "123",
-                    null,
-                    LocalDate.now(),
-                    Role.PUPIL,
-                    AuthProvider.local,
-                    false,
-                    true
-            );
-        }
+        userService.create(
+                "pupil",
+                "pupil",
+                "pupil@mail.com",
+                "123",
+                null,
+                LocalDate.now(),
+                Role.PUPIL,
+                AuthProvider.local,
+                false,
+                true
+        );
+
+//        for (int i = 0; i < 50; i++) {
+//            userService.create(
+//                    "pupil" + i,
+//                    "pupil" + i,
+//                    "pupil" + i + "@gmail.com",
+//                    "123",
+//                    null,
+//                    LocalDate.now(),
+//                    Role.PUPIL,
+//                    AuthProvider.local,
+//                    false,
+//                    true
+//            );
+//        }
     }
 }

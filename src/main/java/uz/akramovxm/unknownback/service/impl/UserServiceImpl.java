@@ -55,9 +55,7 @@ public class UserServiceImpl implements UserService {
                                     "lastName",
                                     "email",
                                     "phoneNumber",
-                                    "role",
-                                    "createdBy.firstName",
-                                    "updatedBy.lastName"
+                                    "role"
                             ).matching("*" + search + "*")))
                     .sort(f -> f.field(sortBy)
                             .order("desc".equalsIgnoreCase(sortType) ? SortOrder.DESC : SortOrder.ASC))

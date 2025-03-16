@@ -8,10 +8,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.search.engine.backend.types.Sortable;
-import org.hibernate.search.mapper.pojo.automaticindexing.ReindexOnUpdate;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexingDependency;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,22 +34,18 @@ public class BaseEntity {
     @UpdateTimestamp
     private Timestamp updatedAt;
 
-    @IndexedEmbedded(includeDepth = 1, name = "createdBy")
-    @IndexingDependency(reindexOnUpdate = ReindexOnUpdate.SHALLOW)
     @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JoinColumn(updatable = false)
     @CreatedBy
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User createdBy;
 
-    @IndexedEmbedded(includeDepth = 1, name = "updatedBy")
-    @IndexingDependency(reindexOnUpdate = ReindexOnUpdate.SHALLOW)
     @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @LastModifiedBy
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User updatedBy;
 }
