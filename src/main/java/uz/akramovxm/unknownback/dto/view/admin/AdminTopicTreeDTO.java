@@ -10,13 +10,13 @@ import java.util.List;
 @Builder
 public class AdminTopicTreeDTO {
     private Long id;
-    private String title;
-    private String path;
+    private String titleUz;
+    private String titleRu;
     private Integer seq;
     private BasicTopicDTO parent;
     private List<AdminTopicTreeDTO> children;
-    private BasicTopicDTO prev;
-    private BasicTopicDTO next;
+    private Long prevId;
+    private Long nextId;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private AuditUserDTO createdBy;

@@ -21,10 +21,11 @@ import java.util.Set;
 public class Topic extends BaseEntity {
     @FullTextField(analyzer = "nameAnalyzer")
     @Column(nullable = false, unique = true)
-    private String title;
+    private String titleUz;
 
+    @FullTextField(analyzer = "nameAnalyzer")
     @Column(nullable = false, unique = true)
-    private String path;
+    private String titleRu;
 
     @Column(nullable = false)
     private Integer seq;

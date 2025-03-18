@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 public class BasicTopicDTO {
     private Long id;
-    private String title;
-    private String path;
+    private String titleUz;
+    private String titleRu;
 }

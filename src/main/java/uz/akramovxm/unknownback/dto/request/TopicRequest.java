@@ -12,13 +12,13 @@ import uz.akramovxm.unknownback.marker.OnCreate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TopicRequest {
-    @NotNull(message = "title must not be null", groups = OnCreate.class)
-    @NotBlank(message = "title must not be empty")
-    private String title;
+    @NotNull(message = "titleUz must not be null", groups = OnCreate.class)
+    @NotBlank(message = "titleUz must not be empty")
+    private String titleUz;
 
-    @NotNull(message = "path must not be null", groups = OnCreate.class)
-    @NotBlank(message = "path must not be empty")
-    private String path;
+    @NotNull(message = "titleRu must not be null", groups = OnCreate.class)
+    @NotBlank(message = "titleRu must not be empty")
+    private String titleRu;
 
     @Positive(message = "parentId must be positive")
     private Long parentId;

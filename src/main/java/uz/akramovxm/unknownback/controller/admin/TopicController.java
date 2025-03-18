@@ -14,6 +14,7 @@ import uz.akramovxm.unknownback.dto.view.admin.AdminTopicTreeDTO;
 import uz.akramovxm.unknownback.entity.Topic;
 import uz.akramovxm.unknownback.mapper.TopicMapper;
 import uz.akramovxm.unknownback.marker.OnCreate;
+import uz.akramovxm.unknownback.marker.OnUpdate;
 import uz.akramovxm.unknownback.service.TopicService;
 
 import java.util.Collection;
@@ -40,36 +41,11 @@ public class TopicController {
     @GetMapping("/as-tree")
     @ResponseStatus(HttpStatus.OK)
     public Response getAllAsTree() {
-        List<AdminTopicTreeDTO> topics = topicService.findAllByParentIsNullOrderBySeqAsc().stream()
-                .map(topicMapper::toAdminTopicTreeDTO).toList();
+        List<Topic> flatList = topicService.findAllOrdered();
+        
+        List<AdminTopicTreeDTO> topics = topicMapper.buildTopicTree(flatList);
 
         return new Response(HttpStatus.OK.name(), topics);
-    }
-
-    @GetMapping("/{path}")
-    @ResponseStatus(HttpStatus.OK)
-    public Response getByPath(@PathVariable String path) {
-        Topic topic = topicService.getByPath(path);
-
-        return new Response(HttpStatus.OK.name(), topicMapper.toAdminTopicTreeDTO(topic));
-    }
-
-    @PreAuthorize("hasAuthority('UPDATE_TOPIC')")
-    @PutMapping
-    @ResponseStatus(HttpStatus.OK)
-    public Response update(@RequestBody Collection<TopicSeqRequest> requests) {
-        topicService.update(requests);
-
-        return new Response(HttpStatus.OK.name());
-    }
-
-    @PreAuthorize("hasAuthority('UPDATE_TOPIC')")
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Response updateById(@Valid @RequestBody TopicRequest request, @PathVariable Long id) {
-        Topic topic = topicService.updateById(request, id);
-
-        return new Response(HttpStatus.OK.name(), topicMapper.toAdminTopicTreeDTO(topic));
     }
 
     @PreAuthorize("hasAuthority('CREATE_TOPIC')")
@@ -78,6 +54,16 @@ public class TopicController {
     @ResponseStatus(HttpStatus.CREATED)
     public Response create(@Valid @RequestBody TopicRequest request) {
         Topic topic = topicService.create(request);
+
+        return new Response(HttpStatus.CREATED.name(), topicMapper.toAdminTopicTreeDTO(topic));
+    }
+
+    @PreAuthorize("hasAuthority('UPDATE_TOPIC')")
+    @Validated(OnUpdate.class)
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response update(@Valid @RequestBody TopicRequest request, @PathVariable Long id) {
+        Topic topic = topicService.update(request, id);
 
         return new Response(HttpStatus.CREATED.name(), topicMapper.toAdminTopicTreeDTO(topic));
     }

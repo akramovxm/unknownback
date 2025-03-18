@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface TaskService {
     SearchResult<Task> getAll(String search, int page, int size);
 
-    List<Task> getByTopicPath(String path);
+    List<Task> getByTopicId(Long topicId);
 
     Optional<Task> findById(Long id);
 

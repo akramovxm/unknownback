@@ -9,21 +9,17 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TopicService {
-    List<Topic> findAll(String search);
+    List<Topic> findAllOrdered();
 
-    List<Topic> findAllByParentIsNullOrderBySeqAsc();
+    List<Topic> findAll(String search);
 
     Optional<Topic> findById(Long id);
 
     Topic getById(Long id);
 
-    Topic getByPath(String path);
-
-    void update(Collection<TopicSeqRequest> requests);
-
-    Topic updateById(TopicRequest request, Long id);
-
     Topic create(TopicRequest request);
+
+    Topic update(TopicRequest request, Long id);
 
     void deleteById(Long id);
 }

@@ -1,9 +1,9 @@
 ----TOPIC
 -- 1-MODULE
-insert into topics (id, next_id, seq, title, path, created_at, updated_at)
+insert into topics (id, next_id, seq, title_uz, title_ru, created_at, updated_at)
 values (1, 2, 1, 'Umumiy kimyo', 'umumiy-kimyo', now(), now());
 
-insert into topics (id, prev_id, next_id, parent_id, seq, title, path, created_at, updated_at)
+insert into topics (id, prev_id, next_id, parent_id, seq, title_uz, title_ru, created_at, updated_at)
 values
         (2, 1, 3, 1, 1, 'Kimyoning asosiy tushunchalari', 'kimyoning-asosiy-tushunchalari', now(), now()),
             (3, 2, 4, 2, 1, 'Atom-molekular ta''limot. Kimyoviy element. Kimyoviy belgi', 'atom-molekular-talimot-kimyoviy-element-kimyoviy-belgi', now(), now()),
@@ -82,10 +82,10 @@ values
             (68, 67, 69, 63, 5, 'Metallarning aktivlik qatori. Elektrolizga doir Faradey qonunlari', 'metallarning-aktivlik-qatori-elektrolizga-doir-faradey-qonunlari', now(), now());
 
 -- 2-MODULE
-insert into topics (id, prev_id, next_id, seq, title, path, created_at, updated_at)
+insert into topics (id, prev_id, next_id, seq, title_uz, title_ru, created_at, updated_at)
 values (69, 68, 70, 2, 'Anorganik kimyo', 'anorganik-kimyo', now(), now());
 
-insert into topics (id, prev_id, next_id, parent_id, seq, title, path, created_at, updated_at)
+insert into topics (id, prev_id, next_id, parent_id, seq, title_uz, title_ru, created_at, updated_at)
 values
         (70, 69, 71, 69, 1, 'Anorganik moddalarning eng muhim sinflari', 'anorganik-moddalarning-eng-muhim-sinflari', now(), now()),
             (71, 70, 72, 70, 1, 'Oksidlarning tarkibi, tuzilishi, nomlanishi va ularning turlari; olinish usullari va xossalari', 'oksidlarning-tarkibi-tuzilishi-nomlanishi-va-ularning-turlari-olinish-usullari-va-xossalari', now(), now()),
@@ -120,10 +120,10 @@ values
             (98, 97, 99, 87, 11, 'Kompleks birikmalar', 'kompleks-birikmalar', now(), now());
 
 -- 3-MODULE
-insert into topics (id, prev_id, next_id, seq, title, path, created_at, updated_at)
+insert into topics (id, prev_id, next_id, seq, title_uz, title_ru, created_at, updated_at)
 values (99, 98, 100, 3, 'Organik kimyo', 'organik-kimyo', now(), now());
 
-insert into topics (id, prev_id, next_id, parent_id, seq, title, path, created_at, updated_at)
+insert into topics (id, prev_id, next_id, parent_id, seq, title_uz, title_ru, created_at, updated_at)
 values
         (100, 99, 101, 99, 1, 'Organik kimyoning asosiy tushuncha va qonunlari. To''yingan uglevodorodlar', 'organik-kimyoning-asosiy-tushuncha-va-qonunlari-toyingan-uglevodorodlar', now(), now()),
             (101, 100, 102, 100, 1, 'Organik kimyoning asosiy tushuncha va qonunlari. Organik birikmalarning o''ziga xos xususiyatlari', 'organik-kimyoning-asosiy-tushuncha-va-qonunlari-organik-birikmalarning-oziga-xos-xususiyatlari', now(), now()),
@@ -164,10 +164,10 @@ values
             (132, 131, 133, 124, 8, 'Eng muhim plastmassalarga umumiy tavsif. Eng muhim sintetik kauchuklar, ularning xossalari va ishlatilishi', 'eng-muhim-plastmassalarga-umumiy-tavsif-eng-muhim-sintetik-kauchuklar-ularning-xossalari-va-ishlatilishi', now(), now());
 
 -- 4-MODULE
-insert into topics (id, prev_id, next_id, seq, title, path, created_at, updated_at)
+insert into topics (id, prev_id, next_id, seq, title_uz, title_ru, created_at, updated_at)
 values (133, 132, 134, 4, 'Amaliy mashg''ulot va laboratoriya tajribalari', 'amaliy-mashgulot-va-laboratoriya-tajribalari', now(), now());
 
-insert into topics (id, prev_id, next_id, parent_id, seq, title, path, created_at, updated_at)
+insert into topics (id, prev_id, next_id, parent_id, seq, title_uz, title_ru, created_at, updated_at)
 values
         (134, 133, 135, 133, 1, 'Kimyo xonasida jihozlar va reaktivlar bilan ishlashda xavfsizlik qoidalari', 'kimyo-xonasida-jihozlar-va-reaktivlar-bilan-ishlashda-xavfsizlik-qoidalari', now(), now()),
         (135, 134, 136, 133, 2, 'Kimyo laboratoriya jihozlarining turlari va ulardan foydalanish tartibi', 'kimyo-laboratoriya-jihozlarining-turlari-va-ulardan-foydalanish-tartibi', now(), now()),
@@ -193,10 +193,10 @@ values
         (155, 154, 156, 133, 22, 'Oqsillarga xos rangli reaksiyalar', 'oqsillarga-xos-rangli-reaksiyalar', now(), now());
 
 -- 5-MODULE
-insert into topics (id, prev_id, next_id, seq, title, path, created_at, updated_at)
+insert into topics (id, prev_id, next_id, seq, title_uz, title_ru, created_at, updated_at)
 values (156, 155, 157, 5, 'Reaksiyalar zanjiri asosida moddalarning o''zaro bir-biriga ta''sir o''tkazishi', 'reaksiyalar-zanjiri-asosida-moddalarning-ozaro-bir-biriga-tasir-otkazishi', now(), now());
 
-insert into topics (id, prev_id, next_id, parent_id, seq, title, path, created_at, updated_at)
+insert into topics (id, prev_id, next_id, parent_id, seq, title_uz, title_ru, created_at, updated_at)
 values
         (157, 156, 158, 156, 1, 'Anorganik moddalarning eng muhim sinflari o''rtasida o''zaro genetik bog''lanish', 'anorganik-moddalarning-eng-muhim-sinflari-ortasida-ozaro-genetik-boglanish', now(), now()),
         (158, 157, 159, 156, 2, 'Organik moddalar o''rtasida boradigan kimyoviy jarayonlar', 'organik-moddalar-ortasida-boradigan-kimyoviy-jarayonlar', now(), now()),

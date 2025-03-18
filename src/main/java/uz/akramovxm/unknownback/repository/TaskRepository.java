@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findAllByTopicPath(String path);
+    List<Task> findAllByTopicId(Long topicId);
 
     boolean existsByContentUz(String contentUz);
 

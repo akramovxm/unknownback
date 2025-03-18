@@ -70,8 +70,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getByTopicPath(String path) {
-        return taskRepository.findAllByTopicPath(path);
+    public List<Task> getByTopicId(Long topicId) {
+        return taskRepository.findAllByTopicId(topicId);
     }
 
     @Override
