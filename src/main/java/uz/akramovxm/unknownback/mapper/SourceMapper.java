@@ -18,8 +18,8 @@ public class SourceMapper {
                 .name(source.getName())
                 .createdAt(source.getCreatedAt())
                 .updatedAt(source.getUpdatedAt())
-                .createdBy(userMapper.toAuditUserDTO(source.getCreatedBy()))
-                .updatedBy(userMapper.toAuditUserDTO(source.getUpdatedBy()))
+                .createdBy(userMapper.toUserDTO(source.getCreatedBy()))
+                .updatedBy(userMapper.toUserDTO(source.getUpdatedBy()))
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package uz.akramovxm.unknownback.service;
 
 import org.hibernate.search.engine.search.query.SearchResult;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import uz.akramovxm.unknownback.dto.request.IDRequest;
 import uz.akramovxm.unknownback.dto.request.SetPasswordRequest;
@@ -30,6 +31,8 @@ public interface UserService {
     User update(User user, OAuth2UserRequest userRequest, OAuth2UserInfo oAuth2UserInfo);
 
     User update(UserRequest request, Long id);
+
+    User update(UserRequest request, Authentication authentication);
 
     User save(User user);
 

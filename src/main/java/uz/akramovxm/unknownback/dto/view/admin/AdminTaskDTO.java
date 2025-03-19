@@ -2,6 +2,7 @@ package uz.akramovxm.unknownback.dto.view.admin;
 
 import lombok.Builder;
 import lombok.Data;
+import uz.akramovxm.unknownback.dto.view.UserDTO;
 import uz.akramovxm.unknownback.entity.Level;
 import uz.akramovxm.unknownback.entity.TaskType;
 
@@ -21,6 +22,6 @@ public class AdminTaskDTO {
     private List<AdminAnswerDTO> answers;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    private AuditUserDTO createdBy;
-    private AuditUserDTO updatedBy;
+    private UserDTO createdBy;
+    private UserDTO updatedBy;
 }

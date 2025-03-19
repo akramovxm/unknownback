@@ -20,8 +20,8 @@ public class AnswerMapper {
                 .correct(answer.isCorrect())
                 .createdAt(answer.getCreatedAt())
                 .updatedAt(answer.getUpdatedAt())
-                .createdBy(userMapper.toAuditUserDTO(answer.getCreatedBy()))
-                .updatedBy(userMapper.toAuditUserDTO(answer.getUpdatedBy()))
+                .createdBy(userMapper.toUserDTO(answer.getCreatedBy()))
+                .updatedBy(userMapper.toUserDTO(answer.getUpdatedBy()))
                 .build();
     }
 }

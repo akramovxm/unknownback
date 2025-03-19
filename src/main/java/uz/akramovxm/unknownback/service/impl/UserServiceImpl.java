@@ -8,6 +8,7 @@ import org.hibernate.search.engine.search.sort.dsl.SortOrder;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.stereotype.Service;
@@ -172,33 +173,16 @@ public class UserServiceImpl implements UserService {
     public User update(UserRequest request, Long id) {
         User user = getById(id);
 
-        Map<String, String> errors = new HashMap<>();
+        setFields(request, user);
 
-        if (request.getFirstName() != null && !request.getFirstName().isEmpty()) {
-            user.setFirstName(request.getFirstName());
-        }
-        if (request.getLastName() != null && !request.getLastName().isEmpty()) {
-            user.setLastName(request.getLastName());
-        }
-        if (request.getPhoneNumber() != null && !request.getPhoneNumber().isEmpty()) {
-            if (userRepository.existsByPhoneNumberAndPhoneNumberNotNullAndIdNot(request.getPhoneNumber(), id)) {
-                errors.put("phoneNumber", "Phone number is already taken");
-            } else {
-                user.setPhoneNumber(request.getPhoneNumber());
-            }
-        }
-        if (request.getBirthDate() != null) {
-            user.setBirthDate(request.getBirthDate());
-        }
-        if (request.getRole() != null) {
-            user.setRole(request.getRole());
-        }
+        return userRepository.save(user);
+    }
 
-        user.setLocked(request.isLocked());
+    @Override
+    public User update(UserRequest request, Authentication authentication) {
+        User user = getByEmail(authentication.getName());
 
-        if (!errors.isEmpty()) {
-            throw new RequestBodyNotValidException(errors);
-        }
+        setFields(request, user);
 
         return userRepository.save(user);
     }
@@ -242,5 +226,35 @@ public class UserServiceImpl implements UserService {
         });
 
         userRepository.saveAll(users);
+    }
+
+    private void setFields(UserRequest request, User user) {
+        Map<String, String> errors = new HashMap<>();
+
+        if (request.getFirstName() != null && !request.getFirstName().isEmpty()) {
+            user.setFirstName(request.getFirstName());
+        }
+        if (request.getLastName() != null && !request.getLastName().isEmpty()) {
+            user.setLastName(request.getLastName());
+        }
+        if (request.getPhoneNumber() != null && !request.getPhoneNumber().isEmpty()) {
+            if (userRepository.existsByPhoneNumberAndPhoneNumberNotNullAndIdNot(request.getPhoneNumber(), user.getId())) {
+                errors.put("phoneNumber", "Phone number is already taken");
+            } else {
+                user.setPhoneNumber(request.getPhoneNumber());
+            }
+        }
+        if (request.getBirthDate() != null) {
+            user.setBirthDate(request.getBirthDate());
+        }
+        if (request.getRole() != null) {
+            user.setRole(request.getRole());
+        }
+
+        user.setLocked(request.isLocked());
+
+        if (!errors.isEmpty()) {
+            throw new RequestBodyNotValidException(errors);
+        }
     }
 }

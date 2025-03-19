@@ -30,8 +30,8 @@ public class TopicMapper {
                 .nextId(topic.getNextId())
                 .createdAt(topic.getCreatedAt())
                 .updatedAt(topic.getUpdatedAt())
-                .createdBy(userMapper.toAuditUserDTO(topic.getCreatedBy()))
-                .updatedBy(userMapper.toAuditUserDTO(topic.getUpdatedBy()))
+                .createdBy(userMapper.toUserDTO(topic.getCreatedBy()))
+                .updatedBy(userMapper.toUserDTO(topic.getUpdatedBy()))
                 .build();
     }
 
@@ -72,8 +72,8 @@ public class TopicMapper {
                 .nextId(topic.getNextId())
                 .createdAt(topic.getCreatedAt())
                 .updatedAt(topic.getUpdatedAt())
-                .createdBy(userMapper.toAuditUserDTO(topic.getCreatedBy()))
-                .updatedBy(userMapper.toAuditUserDTO(topic.getUpdatedBy()))
+                .createdBy(userMapper.toUserDTO(topic.getCreatedBy()))
+                .updatedBy(userMapper.toUserDTO(topic.getUpdatedBy()))
                 .build();
     }
 
@@ -89,8 +89,8 @@ public class TopicMapper {
                 .nextId(topic.getNextId())
                 .createdAt(topic.getCreatedAt())
                 .updatedAt(topic.getUpdatedAt())
-                .createdBy(userMapper.toAuditUserDTO(topic.getCreatedBy()))
-                .updatedBy(userMapper.toAuditUserDTO(topic.getUpdatedBy()))
+                .createdBy(userMapper.toUserDTO(topic.getCreatedBy()))
+                .updatedBy(userMapper.toUserDTO(topic.getUpdatedBy()))
                 .build();
     }
 

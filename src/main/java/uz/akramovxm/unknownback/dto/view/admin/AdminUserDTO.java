@@ -2,6 +2,7 @@ package uz.akramovxm.unknownback.dto.view.admin;
 
 import lombok.Builder;
 import lombok.Data;
+import uz.akramovxm.unknownback.dto.view.UserDTO;
 import uz.akramovxm.unknownback.entity.AuthProvider;
 import uz.akramovxm.unknownback.entity.Role;
 
@@ -23,6 +24,6 @@ public class AdminUserDTO {
     private boolean enabled;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    private AuditUserDTO createdBy;
-    private AuditUserDTO updatedBy;
+    private UserDTO createdBy;
+    private UserDTO updatedBy;
 }

@@ -30,8 +30,8 @@ public class TaskMapper {
                 .answers(task.getAnswers().stream().map(answerMapper::toAdminAnswerDTO).toList())
                 .createdAt(task.getCreatedAt())
                 .updatedAt(task.getUpdatedAt())
-                .createdBy(userMapper.toAuditUserDTO(task.getCreatedBy()))
-                .updatedBy(userMapper.toAuditUserDTO(task.getUpdatedBy()))
+                .createdBy(userMapper.toUserDTO(task.getCreatedBy()))
+                .updatedBy(userMapper.toUserDTO(task.getUpdatedBy()))
                 .build();
     }
 }
