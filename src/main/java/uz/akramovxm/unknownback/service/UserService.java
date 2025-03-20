@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import uz.akramovxm.unknownback.dto.request.IDRequest;
 import uz.akramovxm.unknownback.dto.request.SetPasswordRequest;
+import uz.akramovxm.unknownback.dto.request.UpdatePasswordRequest;
 import uz.akramovxm.unknownback.dto.request.UserRequest;
 import uz.akramovxm.unknownback.entity.AuthProvider;
 import uz.akramovxm.unknownback.entity.Role;
@@ -33,6 +34,8 @@ public interface UserService {
     User update(UserRequest request, Long id);
 
     User update(UserRequest request, Authentication authentication);
+
+    void updatePassword(UpdatePasswordRequest request, Authentication authentication);
 
     User save(User user);
 

@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import uz.akramovxm.unknownback.dto.request.UpdatePasswordRequest;
 import uz.akramovxm.unknownback.dto.request.UserRequest;
 import uz.akramovxm.unknownback.dto.response.Response;
 import uz.akramovxm.unknownback.entity.User;
@@ -37,5 +39,13 @@ public class MeController {
         User user = userService.update(request, authentication);
 
         return new Response(HttpStatus.OK.name(), userMapper.toUserDTO(user));
+    }
+
+    @PutMapping("/update-password")
+    @ResponseStatus(HttpStatus.OK)
+    public Response updatePassword(@Valid @RequestBody UpdatePasswordRequest request, Authentication authentication) {
+        userService.updatePassword(request, authentication);
+
+        return new Response(HttpStatus.OK.name());
     }
 }

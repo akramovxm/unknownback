@@ -16,15 +16,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class UserRequest {
     @NotNull(message = "firstName must not be null", groups = OnCreate.class)
-    @NotBlank(message = "firstName must not be empty")
+    @NotBlank(message = "firstName must not be empty", groups = OnCreate.class)
     private String firstName;
 
     @NotNull(message = "lastName must not be null", groups = OnCreate.class)
-    @NotBlank(message = "lastName must not be empty")
+    @NotBlank(message = "lastName must not be empty", groups = OnCreate.class)
     private String lastName;
 
     @NotNull(message = "email must not be null", groups = OnCreate.class)
-    @NotBlank(message = "email must not be empty")
+    @NotBlank(message = "email must not be empty", groups = OnCreate.class)
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", message = "email is not valid")
     private String email;
 

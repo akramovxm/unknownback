@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.stereotype.Service;
 import uz.akramovxm.unknownback.dto.request.IDRequest;
 import uz.akramovxm.unknownback.dto.request.SetPasswordRequest;
+import uz.akramovxm.unknownback.dto.request.UpdatePasswordRequest;
 import uz.akramovxm.unknownback.dto.request.UserRequest;
 import uz.akramovxm.unknownback.entity.*;
 import uz.akramovxm.unknownback.exception.RequestBodyNotValidException;
@@ -185,6 +186,20 @@ public class UserServiceImpl implements UserService {
         setFields(request, user);
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public void updatePassword(UpdatePasswordRequest request, Authentication authentication) {
+        User user = getByEmail(authentication.getName());
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            Map<String, String> errors = Map.of("oldPassword", "Old password is incorrect");
+            throw new RequestBodyNotValidException(errors);
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        userRepository.save(user);
     }
 
     @Override
