@@ -33,6 +33,9 @@ public class Task extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private TaskType type;
 
+    @Column(nullable = false)
+    private boolean rowAnswers = false;
+
     @ManyToOne
     private Topic topic;
 

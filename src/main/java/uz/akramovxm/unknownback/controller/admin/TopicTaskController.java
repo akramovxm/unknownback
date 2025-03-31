@@ -1,14 +1,6 @@
 package uz.akramovxm.unknownback.controller.admin;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import uz.akramovxm.unknownback.dto.response.Response;
-import uz.akramovxm.unknownback.dto.view.admin.AdminTaskDTO;
-import uz.akramovxm.unknownback.mapper.TaskMapper;
-import uz.akramovxm.unknownback.service.TaskService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/topics")

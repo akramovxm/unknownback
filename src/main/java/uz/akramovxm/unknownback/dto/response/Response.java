@@ -5,19 +5,11 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class Response {
+public class Response<T> {
     private String message;
-    private Object data;
-    private long totalElements;
-    private long page;
-    private long size;
+    private T data;
 
     public Response(String message) {
         this.message = message;
-    }
-
-    public Response(String message, Object data) {
-        this.message = message;
-        this.data = data;
     }
 }

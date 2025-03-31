@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.mail.MailAuthenticationException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -30,20 +31,22 @@ public class AppExceptionHandler {
         return new ErrorResponse(e.getMessage());
     }
 
-
-
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleResourceNotFound(ResourceNotFoundException e) {
         return new ErrorResponse(e.getMessage());
     }
 
-
-
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponse handleAccessDenied(AccessDeniedException e) {
         return new ErrorResponse(e.getMessage());
+    }
+
+    @ExceptionHandler(LockedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handleLocked(LockedException e) {
+        return new ErrorResponse("locked");
     }
 
     @ExceptionHandler(AuthenticationException.class)
@@ -55,7 +58,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadCredentials(BadCredentialsException e) {
-        return new ErrorResponse("Email and/or password is incorrect");
+        return new ErrorResponse("incorrect");
     }
 
     @ExceptionHandler(RequestBodyNotValidException.class)

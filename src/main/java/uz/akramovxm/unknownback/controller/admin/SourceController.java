@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uz.akramovxm.unknownback.dto.request.SourceRequest;
+import uz.akramovxm.unknownback.dto.response.ListResponse;
 import uz.akramovxm.unknownback.dto.response.Response;
 import uz.akramovxm.unknownback.dto.view.admin.AdminSourceDTO;
 import uz.akramovxm.unknownback.entity.Source;
@@ -28,11 +29,11 @@ public class SourceController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Response getAll() {
+    public ListResponse getAll() {
         List<AdminSourceDTO> sources = sourceService.findAll().stream()
                 .map(sourceMapper::toAdminSourceDTO).toList();
 
-        return new Response(HttpStatus.OK.name(), sources);
+        return new ListResponse(HttpStatus.OK.name(), sources);
     }
 
     @Validated(OnCreate.class)
@@ -58,9 +59,9 @@ public class SourceController {
     @PreAuthorize("hasAuthority('DELETE_SOURCE')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response delete(@PathVariable Long id) {
+    public ListResponse delete(@PathVariable Long id) {
         sourceService.deleteById(id);
 
-        return new Response(HttpStatus.OK.name());
+        return new ListResponse(HttpStatus.OK.name());
     }
 }

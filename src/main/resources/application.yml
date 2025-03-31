@@ -14,9 +14,9 @@ spring:
     init:
       mode: always
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/unknown
+    username: khojiakbar
+    password: 
   jpa:
     hibernate:
       ddl-auto: create
@@ -38,7 +38,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
+    password: ${jjpazmxzkpcnoajr}
     properties:
       mail:
         smtp:
@@ -52,14 +52,14 @@ spring:
           google:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
-            redirect-uri: ${BACKEND_URL}/oauth2/callback/{registrationId}
+            redirect-uri: http://${BACKEND_URL}/oauth2/callback/{registrationId}
             scope:
               - email
               - profile
           facebook:
-            client-id: 2788756061299954
-            client-secret: b00fb2c3942eba4dfbb6670781c598de
-            redirect-uri: ${BACKEND_URL}/oauth2/callback/{registrationId}
+            client-id: ${FACEBOOK_CLIENT_ID}
+            client-secret: ${FACEBOOK_CLIENT_SECRET}
+            redirect-uri: http://${BACKEND_URL}/oauth2/callback/{registrationId}
             scope:
               - email
               - public_profile

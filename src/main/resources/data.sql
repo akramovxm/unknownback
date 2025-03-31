@@ -208,8 +208,8 @@ alter sequence topics_id_seq restart with 161;
 
 ----TASK
 --1
-insert into tasks (id, topic_id, content_uz, content_ru, level, type, created_at, updated_at)
-values (1, 1, '$^{107}Bh$ elementi tarkibida magnit kvant soni +3 bo''lgan nechta elektron mavjud?', 'Сколько электронов с магнитным квантовым числом +3 содержится в элементе $^{107}Bh$?', 'EASY', 'PRACTICAL', now(), now());
+insert into tasks (id, topic_id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (1, 1, false, '$^{107}Bh$ elementi tarkibida magnit kvant soni +3 bo''lgan nechta elektron mavjud?', 'Сколько электронов с магнитным квантовым числом +3 содержится в элементе $^{107}Bh$?', 'EASY', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (1, 1, '8', '8', true, now(), now());
@@ -221,8 +221,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (4, 1, '4', '4', false, now(), now());
 
 --2
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (2, '500 ml 0,04M li sirka kislota eritmasiga 0,16 mol sof sirka kislota qo''shilganda kislotaning dissotsilanish darajasi necha foizdan bir foizgacha kamayadi?', 'Когда к 500 мл 0,04М раствора уксусной кислоты добавляют 0,16 моль чистой уксусной кислоты, на сколько процентов снижается степень диссоциации кислоты — от скольких процентов до скольких процентов?', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (2, false, '500 ml 0,04M li sirka kislota eritmasiga 0,16 mol sof sirka kislota qo''shilganda kislotaning dissotsilanish darajasi necha foizdan bir foizgacha kamayadi?', 'Когда к 500 мл 0,04М раствора уксусной кислоты добавляют 0,16 моль чистой уксусной кислоты, на сколько процентов снижается степень диссоциации кислоты — от скольких процентов до скольких процентов?', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (5, 2, '3', '3', false, now(), now());
@@ -234,8 +234,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (8, 2, '2', '2', false, now(), now());
 
 --3
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (3, '16,8 g alken kaliy permanganat eritmasiga to''liq yuttirilishi natijasida kaliy permanganat eritmasining massasi 18 g ga kamaydi. Alkenning formulasini aniqlang.', 'При полном обесцвечивании 16,8 г алкена раствором перманганата калия масса раствора перманганата калия уменьшилась на 18 г. Определите формулу алкена.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (3, false, '16,8 g alken kaliy permanganat eritmasiga to''liq yuttirilishi natijasida kaliy permanganat eritmasining massasi 18 g ga kamaydi. Alkenning formulasini aniqlang.', 'При полном обесцвечивании 16,8 г алкена раствором перманганата калия масса раствора перманганата калия уменьшилась на 18 г. Определите формулу алкена.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (9, 3, '$C_3H_6$', '$C_3H_6$', false, now(), now());
@@ -247,8 +247,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (12, 3, '$C_4H_8$', '$C_4H_8$', false, now(), now());
 
 --4
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (4, 'Magniy sulfidi va fosfidi aralashmasida fosfor atomlari metall atomlaridan 2,5 molga kam, oltingugurt atomlaridan 3,5 molga ko''p bo''lsa, aralashma gidrolizidan necha litr (n.sh.) fosfin hosil bo''ladi?', 'В смеси сульфида и фосфида магния атомов фосфора на 2,5 моль меньше, чем атомов металла, и на 3,5 моль больше, чем атомов серы. Сколько литров фосфина выделится при гидролизе смеси (н.у.)?', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (4, false, 'Magniy sulfidi va fosfidi aralashmasida fosfor atomlari metall atomlaridan 2,5 molga kam, oltingugurt atomlaridan 3,5 molga ko''p bo''lsa, aralashma gidrolizidan necha litr (n.sh.) fosfin hosil bo''ladi?', 'В смеси сульфида и фосфида магния атомов фосфора на 2,5 моль меньше, чем атомов металла, и на 3,5 моль больше, чем атомов серы. Сколько литров фосфина выделится при гидролизе смеси (н.у.)?', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (13, 4, '89,6', '89,6', false, now(), now());
@@ -260,8 +260,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (16, 4, '44,8', '44,8', false, now(), now());
 
 --5
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (5, '15$^\circ$C dagi eruvchanligi 44 g bo''lgan tuzning to''yingan eritmasi 35$^\circ$C gacha isitilganda 80 g tuz erib, to''yingan eritma hosil qiladi. 15$^\circ$C dagi to''yingan eritmaning massasini (g) hisoblang. S(35$^\circ$C)=60', 'При растворимости соли 44 г при 15$^\circ$C, насыщенный раствор при нагревании до 35$^\circ$C может растворить в себе 80 г соли, образуя насыщенный раствор. Найдите массу насыщенного раствора при 15$^\circ$C. S(35$^\circ$C)=60', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (5, false, '15$^\circ$C dagi eruvchanligi 44 g bo''lgan tuzning to''yingan eritmasi 35$^\circ$C gacha isitilganda 80 g tuz erib, to''yingan eritma hosil qiladi. 15$^\circ$C dagi to''yingan eritmaning massasini (g) hisoblang. S(35$^\circ$C)=60', 'При растворимости соли 44 г при 15$^\circ$C, насыщенный раствор при нагревании до 35$^\circ$C может растворить в себе 80 г соли, образуя насыщенный раствор. Найдите массу насыщенного раствора при 15$^\circ$C. S(35$^\circ$C)=60', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (17, 5, '720', '720', false, now(), now());
@@ -273,8 +273,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (20, 5, '710', '710', false, now(), now());
 
 --6
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (6, '$X_{(g)}$ + $2Y_{(g)}$ $\rightleftarrows$ $3Z_{(g)}$ sistemada reaksiya tezligi 0,6 mol/(l$\cdot$min). Agar tezlik konstantasi $k_1$ = 0,05 l$^2$/(mol$^2$ $\cdot$ min) va $X$ moddaning konsentratsiyasi 3M bo''lsa, $Y$ modda konsentratsiyasini (M) hisoblang', 'В системе: $X_{(г)}$ + $2Y_{(г)}$ $\rightleftarrows$ $3Z_{(г)}$ скорость прямой реакции составляет 0,6 моль/(л$\cdot$мин). Если константа скорости $k_1$ = 0,05 л$^2$/(моль$^2$ $\cdot$ мин), а концентрация вещества $X$ равна 3М, найдите концентрацию вещества $Y$ (М).', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (6, false, '$X_{(g)}$ + $2Y_{(g)}$ $\rightleftarrows$ $3Z_{(g)}$ sistemada reaksiya tezligi 0,6 mol/(l$\cdot$min). Agar tezlik konstantasi $k_1$ = 0,05 l$^2$/(mol$^2$ $\cdot$ min) va $X$ moddaning konsentratsiyasi 3M bo''lsa, $Y$ modda konsentratsiyasini (M) hisoblang', 'В системе: $X_{(г)}$ + $2Y_{(г)}$ $\rightleftarrows$ $3Z_{(г)}$ скорость прямой реакции составляет 0,6 моль/(л$\cdot$мин). Если константа скорости $k_1$ = 0,05 л$^2$/(моль$^2$ $\cdot$ мин), а концентрация вещества $X$ равна 3М, найдите концентрацию вещества $Y$ (М).', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (21, 6, '2', '2', false, now(), now());
@@ -286,8 +286,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (24, 6, '9', '9', false, now(), now());
 
 --7
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (7, 'Qaysi zarrachalar juftligida xlorning oksidlanish darajasi manfiy qiymatga ega?', 'В какой паре частиц степень окисления хлора имеет отрицательное значение?', 'EASY', 'THEORETICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (7, false, 'Qaysi zarrachalar juftligida xlorning oksidlanish darajasi manfiy qiymatga ega?', 'В какой паре частиц степень окисления хлора имеет отрицательное значение?', 'EASY', 'THEORETICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (25, 7, 'ClBr$_3$ va ClF$_4$', 'ClBr$_3$ и ClF$_4$', false, now(), now());
@@ -299,8 +299,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (28, 7, 'Cl$_2$O$_7$ va CCl$_4$', 'Cl$_2$O$_7$ и CCl$_4$', false, now(), now());
 
 --8
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (8, 'Etanol va sirka kislota aralashmasini to''liq neytrallash uchun 80 g 6,25%li $NaOH$ eritmasi sarflandi. Xuddi shunday massali aralashma o''zaro to''liq ta''sirlashib ($H^+$ ishtirokida) 8,8 g murakkab efir hosil qiladi. Dastlabki aralashma massasini (g) toping.', 'Для полного нейтрализования смеси этанола и уксусной кислоты израсходовано 80 г 6,25%-ного раствора NaOH. Такая же по массе смесь, прореагировав между собой (в присутствии $H^+$), образует 8,8 г сложного эфира. Найдите массу исходной смеси (г).', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (8, false, 'Etanol va sirka kislota aralashmasini to''liq neytrallash uchun 80 g 6,25%li $NaOH$ eritmasi sarflandi. Xuddi shunday massali aralashma o''zaro to''liq ta''sirlashib ($H^+$ ishtirokida) 8,8 g murakkab efir hosil qiladi. Dastlabki aralashma massasini (g) toping.', 'Для полного нейтрализования смеси этанола и уксусной кислоты израсходовано 80 г 6,25%-ного раствора NaOH. Такая же по массе смесь, прореагировав между собой (в присутствии $H^+$), образует 8,8 г сложного эфира. Найдите массу исходной смеси (г).', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (29, 8, '13,25', '13,25', false, now(), now());
@@ -312,8 +312,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (32, 8, '10,6', '10,6', false, now(), now());
 
 --9
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (9, '$pH$=13 bo''lgan eritmada qaysi ion bo''lishi mumkin?<br>1) $K^+$; 2) $NH^+_4$; 3) $Sr^{2+}$; 4) $Cu^{2+}$', 'Какие ионы могут присутствовать в растворе с $pH$=13?<br>1) $K^+$; 2) $NH^+_4$; 3) $Sr^{2+}$; 4) $Cu^{2+}$', 'EASY', 'THEORETICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (9, false, '$pH$=13 bo''lgan eritmada qaysi ion bo''lishi mumkin?<br>1) $K^+$; 2) $NH^+_4$; 3) $Sr^{2+}$; 4) $Cu^{2+}$', 'Какие ионы могут присутствовать в растворе с $pH$=13?<br>1) $K^+$; 2) $NH^+_4$; 3) $Sr^{2+}$; 4) $Cu^{2+}$', 'EASY', 'THEORETICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (33, 9, '1, 2, 3, 4', '1, 2, 3, 4', false, now(), now());
@@ -325,8 +325,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (36, 9, '1, 3', '1, 3', false, now(), now());
 
 --10
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (10, '30 g $FeO$ va $CuO$ dan iborat aralashma mo''l miqdordagi ammiak bilan qaytarildi. Olingan metallar 294 g 30%li $HNO_3$ kislota eritmasi bilan to''liq ta''sirlasha olsa, $FeO$ massasini (g) aniqlang. (Reaksiya natijasida $NO$ hosil bo''ladi.)', 'Смесь из 30 г $FeO$ и $CuO$ восстановили избытком аммиака. Полученные металлы полностью прореагировали с 294 г 30%-ной азотной кислоты. Определите массу $FeO$ (г) в исходной смеси. (В результате реакции образуется $NO$.)', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (10, false, '30 g $FeO$ va $CuO$ dan iborat aralashma mo''l miqdordagi ammiak bilan qaytarildi. Olingan metallar 294 g 30%li $HNO_3$ kislota eritmasi bilan to''liq ta''sirlasha olsa, $FeO$ massasini (g) aniqlang. (Reaksiya natijasida $NO$ hosil bo''ladi.)', 'Смесь из 30 г $FeO$ и $CuO$ восстановили избытком аммиака. Полученные металлы полностью прореагировали с 294 г 30%-ной азотной кислоты. Определите массу $FeO$ (г) в исходной смеси. (В результате реакции образуется $NO$.)', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (37, 10, '27', '27', false, now(), now());
@@ -338,8 +338,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (40, 10, '9', '9', false, now(), now());
 
 --11
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (11, '$X$ atomining radiusi - $R_1$, ionining radiusi esa - $R_2$. Bunga ko''ra quyidagi ifodalardan qaysilari to''g''ri?<br>1) $R_1$<$R_2$ bo''lsa, atom elektron olgan; 2) ion anion bo''lsa, $R_1$>$R_2$ bo''ladi; 3) atomdan elektron olish iondan elektron olish qiyinroq bo''lsa, $R_1$>$R_2$; 4) $R_1$>$R_2$ bo''lsa, atomning protonlari ionning protonlaridan kam.', 'Радиус атома $X$ - $R_1$, радиус иона - $R_2$. Какие из следующих утверждений верны?<br>1) Если $R_1 < R_2$, значит атом присоединил электрон; 2) Если ион — анион, то $R_1 > R_2$; 3) Если электрон труднее оторвать от атома, чем от иона, то $R_1 > R_2$; 4) Если $R_1 > R_2$, то у атома меньше протонов, чем у иона.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (11, false, '$X$ atomining radiusi - $R_1$, ionining radiusi esa - $R_2$. Bunga ko''ra quyidagi ifodalardan qaysilari to''g''ri?<br>1) $R_1$<$R_2$ bo''lsa, atom elektron olgan; 2) ion anion bo''lsa, $R_1$>$R_2$ bo''ladi; 3) atomdan elektron olish iondan elektron olish qiyinroq bo''lsa, $R_1$>$R_2$; 4) $R_1$>$R_2$ bo''lsa, atomning protonlari ionning protonlaridan kam.', 'Радиус атома $X$ - $R_1$, радиус иона - $R_2$. Какие из следующих утверждений верны?<br>1) Если $R_1 < R_2$, значит атом присоединил электрон; 2) Если ион — анион, то $R_1 > R_2$; 3) Если электрон труднее оторвать от атома, чем от иона, то $R_1 > R_2$; 4) Если $R_1 > R_2$, то у атома меньше протонов, чем у иона.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (41, 11, '1, 3', '1, 3', false, now(), now());
@@ -351,8 +351,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (44, 11, '1, 4', '1, 4', false, now(), now());
 
 --12
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (12, 'Xlor gazi ikkiga ajratildi va birinchi qismi sovuq, ikkinchi qismi qaynoq o''yuvchi natriy eritmasi bilan to''liq reaksiyaga kirishdi. Har ikkala reaksiya uchun bir xil miqdorda $NaOH$ sarflangan bo''lsa, xlorning qancha qismi birinchi reaksiya uchun sarflangan?', 'Хлорный газ был поделен на две части: первая часть полностью прореагировала с холодным раствором едкого натрия, вторая — с горячим. Если в обоих случаях было израсходовано одинаковое количество $NaOH$, то какая доля хлора пошла на первую реакцию?', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (12, false, 'Xlor gazi ikkiga ajratildi va birinchi qismi sovuq, ikkinchi qismi qaynoq o''yuvchi natriy eritmasi bilan to''liq reaksiyaga kirishdi. Har ikkala reaksiya uchun bir xil miqdorda $NaOH$ sarflangan bo''lsa, xlorning qancha qismi birinchi reaksiya uchun sarflangan?', 'Хлорный газ был поделен на две части: первая часть полностью прореагировала с холодным раствором едкого натрия, вторая — с горячим. Если в обоих случаях было израсходовано одинаковое количество $NaOH$, то какая доля хлора пошла на первую реакцию?', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (45, 12, '3/8', '3/8', false, now(), now());
@@ -364,8 +364,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (48, 12, '1/2', '1/2', false, now(), now());
 
 --13
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (13, '400 ml 1,5 molyarli kaliy gidrosulfit va 200 ml kaliy sulfit eritmalari aralashtirildi. Ushbu eritmaga 200 ml kaliy gidroksid eritmasi qo''shilganda, eritmadagi kaliy gidrosulfit konsentratsiyasi 0,5 mol/l gacha kamaydi. Eritmaga qo''shilgan kaliy gidroksid eritmasining konsentratsiyasini (mol/l) hisoblang.', 'Смешали 400 мл 1,5-молярного раствора калий гидросульфита и 200 мл раствора калий сульфита. После добавления 200 мл раствора калий гидроксида концентрация гидросульфита в растворе снизилась до 0,5 моль/л. Определите концентрацию раствора калий гидроксида, который был добавлен (моль/л).', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (13, false, '400 ml 1,5 molyarli kaliy gidrosulfit va 200 ml kaliy sulfit eritmalari aralashtirildi. Ushbu eritmaga 200 ml kaliy gidroksid eritmasi qo''shilganda, eritmadagi kaliy gidrosulfit konsentratsiyasi 0,5 mol/l gacha kamaydi. Eritmaga qo''shilgan kaliy gidroksid eritmasining konsentratsiyasini (mol/l) hisoblang.', 'Смешали 400 мл 1,5-молярного раствора калий гидросульфита и 200 мл раствора калий сульфита. После добавления 200 мл раствора калий гидроксида концентрация гидросульфита в растворе снизилась до 0,5 моль/л. Определите концентрацию раствора калий гидроксида, который был добавлен (моль/л).', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (49, 13, '0,6', '0,6', false, now(), now());
@@ -377,8 +377,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (52, 13, '0,8', '0,8', false, now(), now());
 
 --14
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (14, '11,4 g etan va siklopropan aralashmasining hajmi 6,72 l (n.sh.) bo''lsa, aralashmaga maksimal qancha (l, n.sh.) xlor birikishi mumkin?', 'Масса смеси этана и циклопропана составляет 11,4 г, а её объём при н.у. - 6,72 л. Какой максимальный объём хлора (л, при н.у.) может присоединиться к этой смеси?', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (14, false, '11,4 g etan va siklopropan aralashmasining hajmi 6,72 l (n.sh.) bo''lsa, aralashmaga maksimal qancha (l, n.sh.) xlor birikishi mumkin?', 'Масса смеси этана и циклопропана составляет 11,4 г, а её объём при н.у. - 6,72 л. Какой максимальный объём хлора (л, при н.у.) может присоединиться к этой смеси?', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (53, 14, '2,24', '2,24', false, now(), now());
@@ -390,8 +390,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (56, 14, '4,48', '4,48', false, now(), now());
 
 --15
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (15, 'Gaz holidagi alkin va vodorod aralashmasi $(D(He)=2,4)$ $\textit{Ni}$ katalizatori ustidan o''tkazilganda bromli suvni rangsizlantirmaydigan gazlar arlashmasi $(D(He)=4)$ olindi. Alkinning molyar massasini (g/mol) hisoblang.', 'Смесь алкина и водорода в газообразном состоянии $(D(He)=2,4)$ пропустили над катализатором $\textit{Ni}$. В результате получена газовая смесь с плотностью по гелию $(D(He)=4)$, которая не обесцвечивает бромную воду. Определите молярную массу алкина (г/моль).', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (15, false, 'Gaz holidagi alkin va vodorod aralashmasi $(D(He)=2,4)$ $\textit{Ni}$ katalizatori ustidan o''tkazilganda bromli suvni rangsizlantirmaydigan gazlar arlashmasi $(D(He)=4)$ olindi. Alkinning molyar massasini (g/mol) hisoblang.', 'Смесь алкина и водорода в газообразном состоянии $(D(He)=2,4)$ пропустили над катализатором $\textit{Ni}$. В результате получена газовая смесь с плотностью по гелию $(D(He)=4)$, которая не обесцвечивает бромную воду. Определите молярную массу алкина (г/моль).', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (57, 15, '70', '70', false, now(), now());
@@ -403,8 +403,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (60, 15, '40', '40', false, now(), now());
 
 --16
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (16, 'Nitrit kislotaning nisbiy molekular massasini hisoblang.', 'Вычислите относительную молекулярную массу нитритной кислоты.', 'EASY', 'THEORETICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (16, false, 'Nitrit kislotaning nisbiy molekular massasini hisoblang.', 'Вычислите относительную молекулярную массу нитритной кислоты.', 'EASY', 'THEORETICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (61, 16, '63', '63', false, now(), now());
@@ -416,8 +416,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (64, 16, '98', '98', false, now(), now());
 
 --17
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (17, '$C_6H_{12}O_6$ + $KMnO_4$ + $H_2SO_4$ $\rightarrow$ $CO_2$ + $MnSO_4$ + $K_2SO_4$ + $H_2O$<br>Ushbu reaksiyadagi koeffitsiyentlar yig''indisini aniqlang.', '$C_6H_{12}O_6$ + $KMnO_4$ + $H_2SO_4$ $\rightarrow$ $CO_2$ + $MnSO_4$ + $K_2SO_4$ + $H_2O$<br>Определите сумму коэффициентов в этой реакции.', 'EASY', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (17, false, '$C_6H_{12}O_6$ + $KMnO_4$ + $H_2SO_4$ $\rightarrow$ $CO_2$ + $MnSO_4$ + $K_2SO_4$ + $H_2O$<br>Ushbu reaksiyadagi koeffitsiyentlar yig''indisini aniqlang.', '$C_6H_{12}O_6$ + $KMnO_4$ + $H_2SO_4$ $\rightarrow$ $CO_2$ + $MnSO_4$ + $K_2SO_4$ + $H_2O$<br>Определите сумму коэффициентов в этой реакции.', 'EASY', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (65, 17, '197', '197', false, now(), now());
@@ -429,8 +429,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (68, 17, '180', '180', false, now(), now());
 
 --18
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (18, '48 g III valentli noma''lum metall oksidi $H_2$ va $CO$ aralashmasi yordamida qaytarildi. Reaksiya natijasida 5,4 g suv va 26,4 g $CO_2$ olingan bo''lsa, metallni toping.', '48 г оксида неизвестного III валентного металла восстановили смесью $H_2$ и $CO$. В результате реакции образовалось 5,4 г воды и 26,4 г $CO_2$. Определите металл.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (18, false, '48 g III valentli noma''lum metall oksidi $H_2$ va $CO$ aralashmasi yordamida qaytarildi. Reaksiya natijasida 5,4 g suv va 26,4 g $CO_2$ olingan bo''lsa, metallni toping.', '48 г оксида неизвестного III валентного металла восстановили смесью $H_2$ и $CO$. В результате реакции образовалось 5,4 г воды и 26,4 г $CO_2$. Определите металл.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (69, 18, '$Mn$', '$Mn$', false, now(), now());
@@ -442,8 +442,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (72, 18, '$Al$', '$Al$', false, now(), now());
 
 --19
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (19, '1 $\cdot$ 10$^{-4}$ mol polistirol 52 g bo''lsa, polimerlanish darajasini hisoblang.', 'Если 1 $\cdot$ 10$^{-4}$ моль полистирола имеет массу 52 г, вычислите степень полимеризации.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (19, false, '1 $\cdot$ 10$^{-4}$ mol polistirol 52 g bo''lsa, polimerlanish darajasini hisoblang.', 'Если 1 $\cdot$ 10$^{-4}$ моль полистирола имеет массу 52 г, вычислите степень полимеризации.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (73, 19, '4000', '4000', false, now(), now());
@@ -455,8 +455,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (76, 19, '400', '400', false, now(), now());
 
 --20
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (20, 'Metall, kovalent va ion bog''lanishli moddalar ketma-ketligini toping.', 'Установите последовательность веществ с металлической, ковалентной и ионной связью.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (20, false, 'Metall, kovalent va ion bog''lanishli moddalar ketma-ketligini toping.', 'Установите последовательность веществ с металлической, ковалентной и ионной связью.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (77, 20, '$Ag_2S$, $S_8$, KJ', '$Ag_2S$, $S_8$, KJ', false, now(), now());
@@ -468,8 +468,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (80, 20, '$Pb$, $F_2$, $H_3AsO_4$', '$Pb$, $F_2$, $H_3AsO_4$', false, now(), now());
 
 --21
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (21, 'Chumoli va sirka kislotadan iborat 24,4 g aralashmani neytrallash uchun 250 g 8%li natriy gidroksid sarflangan bo''lsa, hosil bo''lgan organik mahsulotlar massalarini (g) aniqlang.', 'Смесь из муравьиной и уксусной кислот массой 24,4 г нейтрализовали 250 г 8%-ного раствора гидроксида натрия. Определите массы (г) образовавшихся органических продуктов.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (21, false, 'Chumoli va sirka kislotadan iborat 24,4 g aralashmani neytrallash uchun 250 g 8%li natriy gidroksid sarflangan bo''lsa, hosil bo''lgan organik mahsulotlar massalarini (g) aniqlang.', 'Смесь из муравьиной и уксусной кислот массой 24,4 г нейтрализовали 250 г 8%-ного раствора гидроксида натрия. Определите массы (г) образовавшихся органических продуктов.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (81, 21, '18,4; 6', '18,4; 6', false, now(), now());
@@ -481,8 +481,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (84, 21, '27,2; 8,2', '27,2; 8,2', false, now(), now());
 
 --22
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (22, '0,2 mol metoksimetan massasini (g) hisoblang.', 'Рассчитайте массу (г) 0,2 моль метоксиметана.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (22, false, '0,2 mol metoksimetan massasini (g) hisoblang.', 'Рассчитайте массу (г) 0,2 моль метоксиметана.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (85, 22, '9,2', '9,2', false, now(), now());
@@ -494,8 +494,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (88, 22, '9,6', '9,6', false, now(), now());
 
 --23
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (23, '$F^-$ ionidagi valent elektronlar sonini aniqlang.', 'Определите количество валентных электронов в ионе $F^-$.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (23, false, '$F^-$ ionidagi valent elektronlar sonini aniqlang.', 'Определите количество валентных электронов в ионе $F^-$.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (89, 23, '8', '8', false, now(), now());
@@ -507,8 +507,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (92, 23, '7', '7', false, now(), now());
 
 --24
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (24, 'Quyidagi o''zgarishlar asosida fosfor tutgan $X$ va $Y$ moddalarnining molyar massalari (g/mol) yig''indisini toping.<br>$P$ $\xrightarrow{(O_2(mo''l)/t^\circ)}$ ... $\xrightarrow{(Ca(OH)_2, (mo''l))}$ ... $\xrightarrow{(SiO_2+C/t^\circ)}$ ... $\xrightarrow{HNO_3(kons)/t^\circ}$ $Y$', 'На основе следующих превращений найдите сумму молярных масс (г/моль) веществ $X$ и $Y$, содержащих фосфор.<br>$P$ $\xrightarrow{(O_2(избыт)/t^\circ)}$ ... $\xrightarrow{(Ca(OH)_2, (избыт.))}$ ... $\xrightarrow{(SiO_2+C/t^\circ)}$ ... $\xrightarrow{HNO_3(конц)/t^\circ}$ $Y$', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (24, false, 'Quyidagi o''zgarishlar asosida fosfor tutgan $X$ va $Y$ moddalarnining molyar massalari (g/mol) yig''indisini toping.<br>$P$ $\xrightarrow{(O_2(mo''l)/t^\circ)}$ ... $\xrightarrow{(Ca(OH)_2, (mo''l))}$ ... $\xrightarrow{(SiO_2+C/t^\circ)}$ ... $\xrightarrow{HNO_3(kons)/t^\circ}$ $Y$', 'На основе следующих превращений найдите сумму молярных масс (г/моль) веществ $X$ и $Y$, содержащих фосфор.<br>$P$ $\xrightarrow{(O_2(избыт)/t^\circ)}$ ... $\xrightarrow{(Ca(OH)_2, (избыт.))}$ ... $\xrightarrow{(SiO_2+C/t^\circ)}$ ... $\xrightarrow{HNO_3(конц)/t^\circ}$ $Y$', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (93, 24, '452', '452', false, now(), now());
@@ -520,8 +520,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (96, 24, '408', '408', false, now(), now());
 
 --25
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (25, 'Qaysi reagentlardan foydalanib bir bosqichda metanal olish mumkin?', 'Из каких реагентов можно получить метаналь в один этап?', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (25, false, 'Qaysi reagentlardan foydalanib bir bosqichda metanal olish mumkin?', 'Из каких реагентов можно получить метаналь в один этап?', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (97, 25, '$CH_3OH$/$Cu$, t', '$CH_3OH$/$Cu$, t', false, now(), now());
@@ -533,8 +533,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (100, 25, '$CO$, $2H_2$/t, p', '$CO$, $2H_2$/t, p', false, now(), now());
 
 --26
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (26, 'Benzol + $Cl_{2(mo''l)}$ $\xrightarrow{\text{quyosh nuri}}$ ...<br>Reaksiya turi va olingan organik modda molekular massasini ko''rsating.', 'Бензол + $Cl_{2(избыт)}$ $\xrightarrow{\text{солнеч. луч}}$ ...Укажите тип реакции и молекулярную массу полученного органического вещества.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (26, false, 'Benzol + $Cl_{2(mo''l)}$ $\xrightarrow{\text{quyosh nuri}}$ ...<br>Reaksiya turi va olingan organik modda molekular massasini ko''rsating.', 'Бензол + $Cl_{2(избыт)}$ $\xrightarrow{\text{солнеч. луч}}$ ...<br>Укажите тип реакции и молекулярную массу полученного органического вещества.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (101, 26, 'almashinish; 112,5', 'замещение; 112,5', false, now(), now());
@@ -546,8 +546,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (104, 26, 'birikish; 291', 'присоединение; 291', false, now(), now());
 
 --27
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (27, '250 g 19,5%li simob (II)-nitrat eritmasi elektroliz qilinganda, eritma massasi 50,55 g ga kamaydi. Elektroliz jarayonida ishtirok etgan suv massasini (g) hisoblang.', 'При электролизе 250 г 19,5%-ного раствора нитрата ртути (II) масса раствора уменьшилась на 50,55 г. Вычислите массу воды (г), участвовавшей в процессе электролиза.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (27, false, '250 g 19,5%li simob (II)-nitrat eritmasi elektroliz qilinganda, eritma massasi 50,55 g ga kamaydi. Elektroliz jarayonida ishtirok etgan suv massasini (g) hisoblang.', 'При электролизе 250 г 19,5%-ного раствора нитрата ртути (II) масса раствора уменьшилась на 50,55 г. Вычислите массу воды (г), участвовавшей в процессе электролиза.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (105, 27, '11,7', '11,7', false, now(), now());
@@ -559,8 +559,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (108, 27, '12,6', '12,6', false, now(), now());
 
 --28
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (28, 'Etanol va to''yingan bir asosli aminokislotadan hosil bo''lgan 39,75 g murakkab efirning gidrolizi uchun 4,5 g suv sarflangan bo''lsa, aminokislota molyar massasini (g/mol) hisoblang.', 'Если для гидролиза 39,75 г сложного эфира, полученного из этанола и насыщенной одноосновной аминокислоты, израсходовано 4,5 г воды, вычислите молярную массу (г/моль) аминокислоты.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (28, false, 'Etanol va to''yingan bir asosli aminokislotadan hosil bo''lgan 39,75 g murakkab efirning gidrolizi uchun 4,5 g suv sarflangan bo''lsa, aminokislota molyar massasini (g/mol) hisoblang.', 'Если для гидролиза 39,75 г сложного эфира, полученного из этанола и насыщенной одноосновной аминокислоты, израсходовано 4,5 г воды, вычислите молярную массу (г/моль) аминокислоты.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (109, 28, '117', '117', false, now(), now());
@@ -572,8 +572,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (112, 28, '103', '103', false, now(), now());
 
 --29
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (29, '$XYO_3$ + 2$HCl$ $\rightarrow$ $XCl_2$ + $YO_2$ + $H_2O$<br>31,2 g $XYO_3$ reaksiyaga kirishganda 19,2 g $YO_2$ va 0,3$\cdot$$N_A$ ta $H_2O$ molekulasi hosil bo''ldi. Olingan tuzning massasini (g) hisoblang.', '$XYO_3$ + 2$HCl$ $\rightarrow$ $XCl_2$ + $YO_2$ + $H_2O$<br>При реакции 31,2 г $XYO_3$ образовалось 19,2 г $YO_2$ и 0,3$\cdot$$N_A$ молекул воды. Рассчитайте массу (г) полученной соли.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (29, false, '$XYO_3$ + 2$HCl$ $\rightarrow$ $XCl_2$ + $YO_2$ + $H_2O$<br>31,2 g $XYO_3$ reaksiyaga kirishganda 19,2 g $YO_2$ va 0,3$\cdot$$N_A$ ta $H_2O$ molekulasi hosil bo''ldi. Olingan tuzning massasini (g) hisoblang.', '$XYO_3$ + 2$HCl$ $\rightarrow$ $XCl_2$ + $YO_2$ + $H_2O$<br>При реакции 31,2 г $XYO_3$ образовалось 19,2 г $YO_2$ и 0,3$\cdot$$N_A$ молекул воды. Рассчитайте массу (г) полученной соли.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (113, 29, '40,5', '40,5', false, now(), now());
@@ -585,8 +585,8 @@ insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updat
 values (116, 29, '43,5', '43,5', false, now(), now());
 
 --30
-insert into tasks (id, content_uz, content_ru, level, type, created_at, updated_at)
-values (30, 'Molekulalarni tarkibidagi $\pi$- va $\sigma$-bog''lar yig''indisi ortib borishi tartibida joylashtiring.<br>1) oltingugurt (IV)-oksid; 2) metanal; 3) vodorod peroksid; 4) chumoli kislota; 5) gipoxlorit kislota.', 'Расположите молекулы в порядке увеличения суммы $\pi$- и $\sigma$-связей в их составе.<br>1) оксид серы (IV); 2) метаналь; 3) пероксид водорода; 4) муравьиная кислота; 5) хлорноватистая кислота.', 'MEDIUM', 'PRACTICAL', now(), now());
+insert into tasks (id, row_answers, content_uz, content_ru, level, type, created_at, updated_at)
+values (30, false, 'Molekulalarni tarkibidagi $\pi$- va $\sigma$-bog''lar yig''indisi ortib borishi tartibida joylashtiring.<br>1) oltingugurt (IV)-oksid; 2) metanal; 3) vodorod peroksid; 4) chumoli kislota; 5) gipoxlorit kislota.', 'Расположите молекулы в порядке увеличения суммы $\pi$- и $\sigma$-связей в их составе.<br>1) оксид серы (IV); 2) метаналь; 3) пероксид водорода; 4) муравьиная кислота; 5) хлорноватистая кислота.', 'MEDIUM', 'PRACTICAL', now(), now());
 
 insert into answers (id, task_id, value_uz, value_ru, correct, created_at, updated_at)
 values (117, 30, '1, 4, 2, 3, 5', '1, 4, 2, 3, 5', false, now(), now());

@@ -93,14 +93,17 @@ public class TaskServiceImpl implements TaskService {
         Map<String, String> errors = new HashMap<>();
 
         if (taskRepository.existsByContentUz(request.getContentUz())) {
-            errors.put("contentUz", "ContentUz already exists");
+            errors.put("contentUz", "exists");
         } else {
             task.setContentUz(request.getContentUz());
         }
         if (taskRepository.existsByContentRu(request.getContentRu())) {
-            errors.put("contentRu", "ContentRu already exists");
+            errors.put("contentRu", "exists");
         } else {
             task.setContentRu(request.getContentRu());
+        }
+        if (request.getRowAnswers() != null) {
+            task.setRowAnswers(request.getRowAnswers());
         }
         if (request.getTopicId() != null) {
             Topic topic = topicService.getById(request.getTopicId());
@@ -134,7 +137,7 @@ public class TaskServiceImpl implements TaskService {
         task.setAnswers(answers);
 
         if (correctAnswers.get() > 1 || correctAnswers.get() == 0) {
-            errors.put("answers", "The correct answer must be only one");
+            errors.put("answers", "oneCorrect");
         }
 
         if (!errors.isEmpty()) {
@@ -152,17 +155,20 @@ public class TaskServiceImpl implements TaskService {
 
         if (request.getContentUz() != null && !request.getContentUz().isEmpty()) {
             if (taskRepository.existsByContentUzAndIdNot(request.getContentUz(), id)) {
-                errors.put("contentUz", "ContentUz already exists");
+                errors.put("contentUz", "exists");
             } else {
                 task.setContentUz(request.getContentUz());
             }
         }
         if (request.getContentUz() != null && !request.getContentUz().isEmpty()) {
             if (taskRepository.existsByContentRuAndIdNot(request.getContentRu(), id)) {
-                errors.put("contentRu", "ContentRu already exists");
+                errors.put("contentRu", "exists");
             } else {
                 task.setContentRu(request.getContentRu());
             }
+        }
+        if (request.getRowAnswers() != null) {
+            task.setRowAnswers(request.getRowAnswers());
         }
         if (request.getTopicId() != null) {
             Topic topic = topicService.getById(request.getTopicId());
@@ -196,7 +202,7 @@ public class TaskServiceImpl implements TaskService {
         });
 
         if (correctAnswers.get() > 1 || correctAnswers.get() == 0) {
-            errors.put("answers", "The correct answer must be only one");
+            errors.put("answers", "oneCorrect");
         }
 
         if (!errors.isEmpty()) {

@@ -7,18 +7,18 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Entity(name = "verify_codes")
+@Entity(name = "verify_tokens")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class VerifyCode extends BaseEntity {
+public class VerifyToken extends BaseEntity {
     @OneToOne(optional = false)
     private User user;
 
-    @Column(nullable = false, length = 4)
-    private String code;
+    @Column(nullable = false)
+    private String token;
 
     @Column(nullable = false)
     private LocalDateTime expiresAt;

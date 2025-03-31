@@ -1,22 +1,23 @@
 package uz.akramovxm.unknownback.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailAuthenticationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uz.akramovxm.unknownback.dto.request.*;
+import uz.akramovxm.unknownback.dto.request.auth.*;
 import uz.akramovxm.unknownback.entity.*;
+import uz.akramovxm.unknownback.exception.BadRequestException;
 import uz.akramovxm.unknownback.exception.RequestBodyNotValidException;
-import uz.akramovxm.unknownback.exception.ResourceNotFoundException;
 import uz.akramovxm.unknownback.security.jwt.JWTProvider;
 import uz.akramovxm.unknownback.service.AuthService;
-import uz.akramovxm.unknownback.service.MessageService;
+import uz.akramovxm.unknownback.service.SendCodeService;
 import uz.akramovxm.unknownback.service.UserService;
+import uz.akramovxm.unknownback.service.VerifyTokenService;
 
+import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -27,7 +28,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserService userService;
     @Autowired
-    private MessageService messageService;
+    private VerifyTokenService verifyTokenService;
+    @Autowired
+    private SendCodeService sendCodeService;
 
     @Override
     public String login(LoginRequest request) {
@@ -48,61 +51,67 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     @Override
     public void register(RegisterRequest request) {
-        userService.create(
-                request.getFirstName(),
-                request.getLastName(),
-                request.getEmail(),
-                request.getPassword(),
-                request.getPhoneNumber(),
-                request.getBirthDate(),
-                Role.PUPIL,
-                AuthProvider.local,
-                false,
-                false
-        );
+        User user = userService.create(request);
 
-        sendCode(new SendCodeRequest(request.getEmail()));
+        sendCodeService.send(user);
     }
 
     @Transactional
     @Override
-    public void verify(VerifyRequest request) {
+    public void verifyRegistration(VerifyRequest request) {
         User user = userService.getByEmail(request.getEmail());
 
-        VerifyCode verifyCode = user.getVerifyCode();
+        verify(user, request);
 
-        if (verifyCode == null || !verifyCode.getCode().equals(request.getVerifyCode())) {
-            throw new MailAuthenticationException("Verification Failed");
-        }
+        userService.setEnabled(user, true);
+    }
 
-        user.setVerifyCode(null);
-        user.setEnabled(true);
+    @Override
+    public String verifyRecovery(VerifyRequest request) {
+        User user = userService.getByEmail(request.getEmail());
 
-        userService.save(user);
+        verify(user, request);
+
+        String token = UUID.randomUUID().toString();
+
+        VerifyToken verifyToken = new VerifyToken(user, token, LocalDateTime.now().plusMinutes(10));
+
+        verifyTokenService.save(verifyToken);
+
+        return token;
     }
 
     @Transactional
     @Override
     public void sendCode(SendCodeRequest request) {
-        User user;
+        User user = userService.findByEmail(request.getEmail()).orElseThrow(
+                () -> new RequestBodyNotValidException(Map.of("email", "notFound"))
+        );
 
-        try {
-            user = userService.getByEmail(request.getEmail());
-        } catch (ResourceNotFoundException e) {
-            throw new RequestBodyNotValidException(Map.of("email", "Email not found"));
+        sendCodeService.send(user);
+    }
+
+    @Transactional
+    @Override
+    public void setPassword(SetPasswordRequest request) {
+        VerifyToken verifyToken = verifyTokenService.findByToken(request.getToken()).orElseThrow(
+                () -> new BadRequestException("Invalid or expired token")
+        );
+
+        User user = verifyToken.getUser();
+
+        user.setVerifyToken(null);
+
+        userService.setPassword(user, request.getPassword());
+    }
+
+    private void verify(User user, VerifyRequest request) {
+        VerifyCode verifyCode = user.getVerifyCode();
+
+        if (verifyCode == null || !verifyCode.getCode().equals(request.getVerifyCode())) {
+            throw new RequestBodyNotValidException(Map.of("verifyCode", "incorrect"));
         }
-        Random random = new Random();
-        String code = String.format("%04d", random.nextInt(10000));
 
-        if (user.getVerifyCode() == null) {
-            VerifyCode verifyCode = new VerifyCode(user, code);
-            user.setVerifyCode(verifyCode);
-        } else {
-            user.getVerifyCode().setCode(code);
-        }
-
-        userService.save(user);
-
-        messageService.sendVerifyCode(request.getEmail(), code);
+        user.setVerifyCode(null);
     }
 }

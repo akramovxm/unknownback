@@ -43,7 +43,7 @@ public class SourceServiceImpl implements SourceService {
         Map<String, String> errors = new HashMap<>();
 
         if (sourceRepository.existsByName(request.getName())) {
-            errors.put("name", "Name already exists");
+            errors.put("name", "exists");
         } else {
             source.setName(request.getName());
         }
@@ -63,7 +63,7 @@ public class SourceServiceImpl implements SourceService {
 
         if (request.getName() != null && !request.getName().trim().isEmpty()) {
             if (sourceRepository.existsByNameAndIdNot(request.getName(), id)) {
-                errors.put("name", "Name already exists");
+                errors.put("name", "exists");
             } else {
                 source.setName(request.getName());
             }

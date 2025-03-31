@@ -8,30 +8,34 @@ import org.hibernate.search.engine.search.sort.dsl.SortOrder;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.stereotype.Service;
-import uz.akramovxm.unknownback.dto.request.IDRequest;
-import uz.akramovxm.unknownback.dto.request.SetPasswordRequest;
-import uz.akramovxm.unknownback.dto.request.UpdatePasswordRequest;
-import uz.akramovxm.unknownback.dto.request.UserRequest;
+import uz.akramovxm.unknownback.dto.request.*;
+import uz.akramovxm.unknownback.dto.request.auth.RegisterRequest;
 import uz.akramovxm.unknownback.entity.*;
 import uz.akramovxm.unknownback.exception.RequestBodyNotValidException;
 import uz.akramovxm.unknownback.exception.ResourceNotFoundException;
 import uz.akramovxm.unknownback.repository.UserRepository;
+import uz.akramovxm.unknownback.security.CurrentUserService;
 import uz.akramovxm.unknownback.security.oauth2.user.OAuth2UserInfo;
 import uz.akramovxm.unknownback.service.UserService;
+import uz.akramovxm.unknownback.service.validation.UserValidationService;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CurrentUserService currentUserService;
+    @Autowired
+    private UserValidationService userValidationService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @PersistenceContext
@@ -53,11 +57,7 @@ public class UserServiceImpl implements UserService {
             result = session.search(User.class)
                     .where(f -> f.bool()
                             .should(f.wildcard().fields(
-                                    "firstName",
-                                    "lastName",
-                                    "email",
-                                    "phoneNumber",
-                                    "role"
+                                    "firstName", "lastName", "email", "phoneNumber", "role"
                             ).matching("*" + search + "*")))
                     .sort(f -> f.field(sortBy)
                             .order("desc".equalsIgnoreCase(sortType) ? SortOrder.DESC : SortOrder.ASC))
@@ -75,50 +75,61 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public User getByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(
+        return findByEmail(email).orElseThrow(
                 () -> new ResourceNotFoundException(User.class.getSimpleName(), "email", email)
         );
     }
 
     @Override
-    public User create(String firstName, String lastName, String email, String password,
-                       String phoneNumber, LocalDate birthDate, Role role, AuthProvider provider,
-                       boolean locked, boolean enabled) {
+    public User create(String firstName, String lastName, String email, String password, Role role) {
         User user = User.builder()
                 .firstName(firstName)
                 .lastName(lastName)
+                .email(email)
+                .password(passwordEncoder.encode(password))
                 .role(role)
-                .provider(provider)
-                .locked(locked)
-                .enabled(enabled)
+                .provider(AuthProvider.local)
+                .locked(false)
+                .enabled(true)
                 .build();
 
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User create(RegisterRequest request) {
         Map<String, String> errors = new HashMap<>();
 
-        if (email != null && !email.isEmpty()) {
-            if (userRepository.existsByEmail(email)) {
-                errors.put("email", "Email is already taken");
-            } else {
-                user.setEmail(email);
-            }
-        }
-        if (phoneNumber != null && !phoneNumber.isEmpty()) {
-            if (userRepository.existsByPhoneNumberAndPhoneNumberNotNull(phoneNumber)) {
-                errors.put("phoneNumber", "Phone number is already taken");
-            } else {
-                user.setPhoneNumber(phoneNumber);
-            }
-        }
-        if (password != null && !password.isEmpty()) {
-            user.setPassword(passwordEncoder.encode(password));
-        }
-        if (birthDate != null) {
-            user.setBirthDate(birthDate);
-        }
+        userValidationService.validateFirstName(request.getFirstName(), errors);
+        userValidationService.validateLastName(request.getLastName(), errors);
+        userValidationService.validateEmail(request.getEmail(), errors);
+        userValidationService.validatePassword(request.getPassword(), errors);
+        userValidationService.validatePhoneNumber(request.getPhoneNumber(), errors);
+        userValidationService.validateBirthDate(request.getBirthDate(), errors);
 
         if (!errors.isEmpty()) {
             throw new RequestBodyNotValidException(errors);
+        }
+
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.PUPIL)
+                .provider(AuthProvider.local)
+                .locked(false)
+                .enabled(false)
+                .build();
+
+        if (request.getBirthDate() != null) {
+            user.setBirthDate(LocalDate.parse(request.getBirthDate()));
         }
 
         return userRepository.save(user);
@@ -126,38 +137,45 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(OAuth2UserRequest userRequest, OAuth2UserInfo oAuth2UserInfo) {
-        return create(
-                oAuth2UserInfo.getFirstName(),
-                oAuth2UserInfo.getLastName(),
-                oAuth2UserInfo.getEmail(),
-                null,
-                null,
-                null,
-                Role.PUPIL,
-                AuthProvider.valueOf(userRequest.getClientRegistration().getRegistrationId()),
-                false,
-                true
-        );
+        User user = User.builder()
+                .firstName(oAuth2UserInfo.getFirstName())
+                .lastName(oAuth2UserInfo.getLastName())
+                .email(oAuth2UserInfo.getEmail())
+                .role(Role.PUPIL)
+                .provider(AuthProvider.valueOf(userRequest.getClientRegistration().getRegistrationId()))
+                .locked(false)
+                .enabled(true)
+                .build();
+
+        return userRepository.save(user);
     }
 
     @Override
     public User create(UserRequest request) {
-        return create(
-                request.getFirstName(),
-                request.getLastName(),
-                request.getEmail(),
-                null,
-                request.getPhoneNumber(),
-                request.getBirthDate(),
-                request.getRole(),
-                AuthProvider.local,
-                request.isLocked(),
-                true
-        );
+        validateRequest(request, null);
+
+        User user = User.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .phoneNumber(request.getPhoneNumber())
+                .role(Role.valueOf(request.getRole()))
+                .provider(AuthProvider.local)
+                .enabled(true)
+                .build();
+
+        if (request.getBirthDate() != null) {
+            user.setBirthDate(LocalDate.parse(request.getBirthDate()));
+        }
+        if (request.getLocked() != null) {
+            user.setLocked(request.getLocked());
+        }
+
+        return userRepository.save(user);
     }
 
     @Override
-    public User update(User user, OAuth2UserRequest userRequest, OAuth2UserInfo oAuth2UserInfo) {
+    public User updateFully(User user, OAuth2UserRequest userRequest, OAuth2UserInfo oAuth2UserInfo) {
         if (oAuth2UserInfo.getFirstName() != null && !oAuth2UserInfo.getFirstName().isEmpty()) {
             user.setFirstName(oAuth2UserInfo.getFirstName());
         }
@@ -171,79 +189,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(UserRequest request, Long id) {
+    public User updateFully(UserRequest request, Long id) {
         User user = getById(id);
 
-        setFields(request, user);
+        validateRequest(request, id);
 
-        return userRepository.save(user);
-    }
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setRole(Role.valueOf(request.getRole()));
 
-    @Override
-    public User update(UserRequest request, Authentication authentication) {
-        User user = getByEmail(authentication.getName());
-
-        setFields(request, user);
-
-        return userRepository.save(user);
-    }
-
-    @Override
-    public void updatePassword(UpdatePasswordRequest request, Authentication authentication) {
-        User user = getByEmail(authentication.getName());
-
-        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
-            Map<String, String> errors = Map.of("oldPassword", "Old password is incorrect");
-            throw new RequestBodyNotValidException(errors);
+        if (request.getBirthDate() != null) {
+            user.setBirthDate(LocalDate.parse(request.getBirthDate()));
+        }
+        if (request.getLocked() != null) {
+            user.setLocked(request.getLocked());
         }
 
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-
-        userRepository.save(user);
-    }
-
-    @Override
-    public User save(User user) {
         return userRepository.save(user);
     }
 
     @Override
-    public void setPassword(SetPasswordRequest request) {
-        User user = getByEmail(request.getEmail());
+    public User updatePartially(UserRequest request, Long id) {
+        User user = getById(id);
 
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-
-        userRepository.save(user);
-    }
-
-    @Override
-    public void delete(IDRequest request) {
-        userRepository.deleteAllById(request.getIds());
-    }
-
-    @Override
-    public void lock(IDRequest request) {
-        List<User> users = userRepository.findAllById(request.getIds());
-
-        users.forEach(user -> {
-            user.setLocked(true);
-        });
-
-        userRepository.saveAll(users);
-    }
-
-    @Override
-    public void unlock(IDRequest request) {
-        List<User> users = userRepository.findAllById(request.getIds());
-
-        users.forEach(user -> {
-            user.setLocked(false);
-        });
-
-        userRepository.saveAll(users);
-    }
-
-    private void setFields(UserRequest request, User user) {
         Map<String, String> errors = new HashMap<>();
 
         if (request.getFirstName() != null && !request.getFirstName().isEmpty()) {
@@ -252,21 +222,114 @@ public class UserServiceImpl implements UserService {
         if (request.getLastName() != null && !request.getLastName().isEmpty()) {
             user.setLastName(request.getLastName());
         }
+        if (request.getEmail() != null && !request.getEmail().isEmpty()) {
+            if (userRepository.existsByPhoneNumberAndPhoneNumberNotNullAndIdNot(request.getEmail(), id)) {
+                errors.put("email", "exists");
+            } else {
+                user.setEmail(request.getEmail());
+            }
+        }
         if (request.getPhoneNumber() != null && !request.getPhoneNumber().isEmpty()) {
-            if (userRepository.existsByPhoneNumberAndPhoneNumberNotNullAndIdNot(request.getPhoneNumber(), user.getId())) {
-                errors.put("phoneNumber", "Phone number is already taken");
+            if (userRepository.existsByPhoneNumberAndPhoneNumberNotNullAndIdNot(request.getPhoneNumber(), id)) {
+                errors.put("phoneNumber", "exists");
             } else {
                 user.setPhoneNumber(request.getPhoneNumber());
             }
         }
-        if (request.getBirthDate() != null) {
-            user.setBirthDate(request.getBirthDate());
+        if (request.getRole() != null && !request.getRole().isEmpty()) {
+            try {
+                Role role = Role.valueOf(request.getRole());
+
+                User currentUser = currentUserService.getCurrentUser();
+                if (currentUser.getRole().ordinal() > role.ordinal()) {
+                    errors.put("role", "notAllowed");
+                } else {
+                    user.setRole(role);
+                }
+            } catch (IllegalArgumentException e) {
+                errors.put("role", "invalid");
+            }
         }
-        if (request.getRole() != null) {
-            user.setRole(request.getRole());
+        if (request.getBirthDate() != null) {
+            try {
+                LocalDate birthDate = LocalDate.parse(request.getBirthDate());
+                user.setBirthDate(birthDate);
+            } catch (IllegalArgumentException e) {
+                errors.put("birthDate", "matDatepickerParse");
+            }
+        }
+        if (request.getLocked() != null) {
+            user.setLocked(request.getLocked());
         }
 
-        user.setLocked(request.isLocked());
+        if (!errors.isEmpty()) {
+            throw new RequestBodyNotValidException(errors);
+        }
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void delete(IDRequest request) {
+        userRepository.deleteAllById(request.getIds());
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public void lock(IDRequest request) {
+        List<User> users = userRepository.findAllById(request.getIds());
+
+        users.forEach(user -> user.setLocked(true));
+
+        userRepository.saveAll(users);
+    }
+
+    @Override
+    public void unlock(IDRequest request) {
+        List<User> users = userRepository.findAllById(request.getIds());
+
+        users.forEach(user -> user.setLocked(false));
+
+        userRepository.saveAll(users);
+    }
+
+    @Override
+    public void setEnabled(User user, boolean enabled) {
+        user.setEnabled(enabled);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public void setPassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+
+        userRepository.save(user);
+    }
+
+    private void validateRequest(UserRequest request, Long id) {
+        Map<String, String> errors = new HashMap<>();
+
+        userValidationService.validateFirstName(request.getFirstName(), errors);
+        userValidationService.validateLastName(request.getLastName(), errors);
+        if (id != null) {
+            userValidationService.validateEmail(request.getEmail(), errors, id);
+            userValidationService.validatePhoneNumber(request.getPhoneNumber(), errors, id);
+        } else {
+            userValidationService.validateEmail(request.getEmail(), errors);
+            userValidationService.validatePhoneNumber(request.getPhoneNumber(), errors);
+        }
+        userValidationService.validateBirthDate(request.getBirthDate(), errors);
+        userValidationService.validateRole(request.getRole(), errors);
 
         if (!errors.isEmpty()) {
             throw new RequestBodyNotValidException(errors);

@@ -17,6 +17,7 @@ public class AdminTaskDTO {
     private String contentRu;
     private Level level;
     private TaskType type;
+    private boolean rowAnswers;
     private AdminTopicTreeDTO topic;
     private AdminSourceDTO source;
     private List<AdminAnswerDTO> answers;

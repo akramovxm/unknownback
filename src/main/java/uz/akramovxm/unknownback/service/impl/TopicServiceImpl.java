@@ -72,14 +72,14 @@ public class TopicServiceImpl implements TopicService {
 
         if (request.getTitleUz() != null && !request.getTitleUz().trim().isEmpty()) {
             if (topicRepository.existsByTitleUz(request.getTitleUz())) {
-                errors.put("titleUz", "Title already exists");
+                errors.put("titleUz", "exists");
             } else {
                 topic.setTitleUz(request.getTitleUz());
             }
         }
         if (request.getTitleRu() != null && !request.getTitleRu().trim().isEmpty()) {
             if (topicRepository.existsByTitleRu(request.getTitleRu())) {
-                errors.put("titleRu", "Title already exists");
+                errors.put("titleRu", "exists");
             } else {
                 topic.setTitleRu(request.getTitleRu());
             }
@@ -107,14 +107,14 @@ public class TopicServiceImpl implements TopicService {
 
         if (request.getTitleUz() != null && !request.getTitleUz().trim().isEmpty()) {
             if (topicRepository.existsByTitleUzAndIdNot(request.getTitleUz(), id)) {
-                errors.put("titleUz", "Title already exists");
+                errors.put("titleUz", "exists");
             } else {
                 topic.setTitleUz(request.getTitleUz());
             }
         }
         if (request.getTitleRu() != null && !request.getTitleRu().trim().isEmpty()) {
             if (topicRepository.existsByTitleRuAndIdNot(request.getTitleRu(), id)) {
-                errors.put("titleRu", "Title already exists");
+                errors.put("titleRu", "exists");
             } else {
                 topic.setTitleRu(request.getTitleRu());
             }

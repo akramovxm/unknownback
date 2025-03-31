@@ -67,8 +67,14 @@ public class User extends BaseEntity implements UserDetails {
     @JsonIgnore
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
     private VerifyCode verifyCode;
+
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
+    private VerifyToken verifyToken;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

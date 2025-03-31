@@ -4,18 +4,15 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import uz.akramovxm.unknownback.dto.request.*;
+import uz.akramovxm.unknownback.dto.request.auth.*;
 import uz.akramovxm.unknownback.dto.response.AuthResponse;
 import uz.akramovxm.unknownback.service.AuthService;
-import uz.akramovxm.unknownback.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
     private AuthService authService;
-    @Autowired
-    private UserService userService;
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
@@ -33,12 +30,20 @@ public class AuthController {
         return new AuthResponse("Registration completed successfully. Check and verify your email");
     }
 
-    @PostMapping("/verify")
+    @PostMapping("/verify-registration")
     @ResponseStatus(HttpStatus.OK)
-    public AuthResponse verify(@Valid @RequestBody VerifyRequest request) {
-        authService.verify(request);
+    public AuthResponse verifyRegistration(@Valid @RequestBody VerifyRequest request) {
+        authService.verifyRegistration(request);
 
         return new AuthResponse("Verification completed successfully");
+    }
+
+    @PostMapping("/verify-recovery")
+    @ResponseStatus(HttpStatus.OK)
+    public AuthResponse verifyRecovery(@Valid @RequestBody VerifyRequest request) {
+        String token = authService.verifyRecovery(request);
+
+        return new AuthResponse(token, "Verification completed successfully");
     }
 
     @PostMapping("/send-code")
@@ -52,7 +57,7 @@ public class AuthController {
     @PostMapping("/set-password")
     @ResponseStatus(HttpStatus.OK)
     public AuthResponse setPassword(@Valid @RequestBody SetPasswordRequest request) {
-        userService.setPassword(request);
+        authService.setPassword(request);
 
         return new AuthResponse("Password set successfully");
     }

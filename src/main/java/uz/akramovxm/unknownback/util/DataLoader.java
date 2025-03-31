@@ -3,11 +3,8 @@ package uz.akramovxm.unknownback.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import uz.akramovxm.unknownback.entity.AuthProvider;
 import uz.akramovxm.unknownback.entity.Role;
 import uz.akramovxm.unknownback.service.UserService;
-
-import java.time.LocalDate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -15,18 +12,13 @@ public class DataLoader implements CommandLineRunner {
     private UserService userService;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         userService.create(
                 "Xojiakbar",
                 "Akramov",
                 "akramovxm@gmail.com",
                 "123",
-                "909118611",
-                LocalDate.now(),
-                Role.ADMIN,
-                AuthProvider.local,
-                false,
-                true
+                Role.SUPERADMIN
         );
 
         userService.create(
@@ -34,12 +26,7 @@ public class DataLoader implements CommandLineRunner {
                 "Xikmatullo",
                 "makkamovxq@gmail.com",
                 "123",
-                "901139969",
-                LocalDate.now(),
-                Role.ADMIN,
-                AuthProvider.local,
-                false,
-                true
+                Role.ADMIN
         );
 
         userService.create(
@@ -47,12 +34,7 @@ public class DataLoader implements CommandLineRunner {
                 "Nig'matullo",
                 "makkamovnq@gmail.com",
                 "123",
-                "909162404",
-                LocalDate.now(),
-                Role.ADMIN,
-                AuthProvider.local,
-                false,
-                true
+                Role.ADMIN
         );
 
         userService.create(
@@ -60,12 +42,7 @@ public class DataLoader implements CommandLineRunner {
                 "Maxmud",
                 "kulchaboyevmx@gmail.com",
                 "123",
-                "901528474",
-                LocalDate.now(),
-                Role.ADMIN,
-                AuthProvider.local,
-                false,
-                true
+                Role.ADMIN
         );
 
         userService.create(
@@ -73,12 +50,7 @@ public class DataLoader implements CommandLineRunner {
                 "pupil",
                 "pupil@mail.com",
                 "123",
-                null,
-                LocalDate.now(),
-                Role.PUPIL,
-                AuthProvider.local,
-                false,
-                true
+                Role.PUPIL
         );
 
 //        for (int i = 0; i < 50; i++) {
@@ -87,12 +59,7 @@ public class DataLoader implements CommandLineRunner {
 //                    "pupil" + i,
 //                    "pupil" + i + "@gmail.com",
 //                    "123",
-//                    null,
-//                    LocalDate.now(),
-//                    Role.PUPIL,
-//                    AuthProvider.local,
-//                    false,
-//                    true
+//                    Role.PUPIL
 //            );
 //        }
     }

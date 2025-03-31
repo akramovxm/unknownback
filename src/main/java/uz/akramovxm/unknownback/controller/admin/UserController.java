@@ -9,12 +9,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uz.akramovxm.unknownback.dto.request.IDRequest;
 import uz.akramovxm.unknownback.dto.request.UserRequest;
+import uz.akramovxm.unknownback.dto.response.ListResponse;
 import uz.akramovxm.unknownback.dto.response.Response;
-import uz.akramovxm.unknownback.dto.view.admin.AdminUserDTO;
+import uz.akramovxm.unknownback.dto.view.UserDTO;
 import uz.akramovxm.unknownback.entity.User;
-import uz.akramovxm.unknownback.mapper.UserMapper;
-import uz.akramovxm.unknownback.marker.OnCreate;
-import uz.akramovxm.unknownback.marker.OnUpdate;
+import uz.akramovxm.unknownback.factory.UserDTOFactory;
 import uz.akramovxm.unknownback.service.UserService;
 
 import java.util.List;
@@ -26,12 +25,12 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private UserMapper userMapper;
+    private UserDTOFactory userDTOFactory;
 
     @PreAuthorize("hasAuthority('GET_USER')")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Response getAll(
+    public ListResponse<UserDTO> getUsers(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sortBy", defaultValue = "createdAt_sort") String sortBy,
@@ -40,55 +39,80 @@ public class UserController {
     ) {
         SearchResult<User> result = userService.getAll(search, page, size, sortBy, sortType);
 
-        List<AdminUserDTO> users = result.hits().stream().map(userMapper::toAdminUserDTO).toList();
+        List<UserDTO> users = result.hits().stream().map(userDTOFactory::create).toList();
 
-        return new Response(HttpStatus.OK.name(), users, result.total().hitCount(), page, size);
+        return new ListResponse<>(HttpStatus.OK.name(), users, result.total().hitCount(), page, size);
     }
 
-    @Validated(OnCreate.class)
+    @PreAuthorize("hasAuthority('GET_USER')")
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response<UserDTO> getAll(@PathVariable Long id) {
+        User user = userService.getById(id);
+
+        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
+    }
+
     @PreAuthorize("hasAuthority('CREATE_USER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response create(@Valid @RequestBody UserRequest request) {
+    public Response<UserDTO> create(@RequestBody UserRequest request) {
         User user = userService.create(request);
 
-        return new Response(HttpStatus.OK.name(), userMapper.toAdminUserDTO(user));
+        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
     }
 
-    @Validated(OnUpdate.class)
     @PreAuthorize("hasAuthority('UPDATE_USER')")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response update(@Valid @RequestBody UserRequest request, @PathVariable Long id) {
-        User user = userService.update(request, id);
+    public Response<UserDTO> updateFully(@RequestBody UserRequest request, @PathVariable Long id) {
+        User user = userService.updateFully(request, id);
 
-        return new Response(HttpStatus.OK.name(), userMapper.toAdminUserDTO(user));
+        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
+    }
+
+    @PreAuthorize("hasAuthority('UPDATE_USER')")
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response<UserDTO> updatePartially(@RequestBody UserRequest request, @PathVariable Long id) {
+        User user = userService.updatePartially(request, id);
+
+        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
+    }
+
+    @PreAuthorize("hasAuthority('DELETE_USER')")
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Response<UserDTO> deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+
+        return new Response<>(HttpStatus.OK.name());
     }
 
     @PreAuthorize("hasAuthority('DELETE_USER')")
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public Response delete(@Valid @RequestBody IDRequest request) {
+    public Response<UserDTO> deleteByIds(@Valid @RequestBody IDRequest request) {
         userService.delete(request);
 
-        return new Response(HttpStatus.OK.name());
+        return new Response<>(HttpStatus.OK.name());
     }
 
     @PreAuthorize("hasAuthority('UPDATE_USER')")
     @PutMapping("/lock")
     @ResponseStatus(HttpStatus.OK)
-    public Response lock(@Valid @RequestBody IDRequest request) {
+    public Response<UserDTO> lockByIds(@Valid @RequestBody IDRequest request) {
         userService.lock(request);
 
-        return new Response(HttpStatus.OK.name());
+        return new Response<>(HttpStatus.OK.name());
     }
 
     @PreAuthorize("hasAuthority('UPDATE_USER')")
     @PutMapping("/unlock")
     @ResponseStatus(HttpStatus.OK)
-    public Response unlock(@Valid @RequestBody IDRequest request) {
+    public Response<UserDTO> unlockByIds(@Valid @RequestBody IDRequest request) {
         userService.unlock(request);
 
-        return new Response(HttpStatus.OK.name());
+        return new Response<>(HttpStatus.OK.name());
     }
 }

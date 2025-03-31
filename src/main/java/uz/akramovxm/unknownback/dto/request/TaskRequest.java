@@ -38,6 +38,8 @@ public class TaskRequest {
     @NotNull(message = "type must not be null", groups = OnCreate.class)
     private TaskType type;
 
+    private Boolean rowAnswers;
+
     @Valid
     @NotNull(message = "type must not be null", groups = OnCreate.class)
     @Size(min = 4, max = 4, message = "answers must be 4")

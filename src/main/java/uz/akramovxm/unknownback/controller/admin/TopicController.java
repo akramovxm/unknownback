@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uz.akramovxm.unknownback.dto.request.TopicRequest;
-import uz.akramovxm.unknownback.dto.request.TopicSeqRequest;
+import uz.akramovxm.unknownback.dto.response.ListResponse;
 import uz.akramovxm.unknownback.dto.response.Response;
 import uz.akramovxm.unknownback.dto.view.admin.AdminTopicDTO;
 import uz.akramovxm.unknownback.dto.view.admin.AdminTopicTreeDTO;
@@ -17,7 +17,6 @@ import uz.akramovxm.unknownback.marker.OnCreate;
 import uz.akramovxm.unknownback.marker.OnUpdate;
 import uz.akramovxm.unknownback.service.TopicService;
 
-import java.util.Collection;
 import java.util.List;
 
 @Validated
@@ -31,21 +30,21 @@ public class TopicController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Response getAll(@RequestParam(value = "search", defaultValue = "") String search) {
+    public ListResponse getAll(@RequestParam(value = "search", defaultValue = "") String search) {
         List<AdminTopicDTO> topics = topicService.findAll(search).stream()
                 .map(topicMapper::toAdminTopicDTO).toList();
 
-        return new Response(HttpStatus.OK.name(), topics);
+        return new ListResponse(HttpStatus.OK.name(), topics);
     }
 
     @GetMapping("/as-tree")
     @ResponseStatus(HttpStatus.OK)
-    public Response getAllAsTree() {
+    public ListResponse getAllAsTree() {
         List<Topic> flatList = topicService.findAllOrdered();
         
         List<AdminTopicTreeDTO> topics = topicMapper.buildTopicTree(flatList);
 
-        return new Response(HttpStatus.OK.name(), topics);
+        return new ListResponse(HttpStatus.OK.name(), topics);
     }
 
     @PreAuthorize("hasAuthority('CREATE_TOPIC')")
@@ -71,9 +70,9 @@ public class TopicController {
     @PreAuthorize("hasAuthority('DELETE_TOPIC')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response delete(@PathVariable Long id) {
+    public ListResponse delete(@PathVariable Long id) {
         topicService.deleteById(id);
 
-        return new Response(HttpStatus.OK.name());
+        return new ListResponse(HttpStatus.OK.name());
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uz.akramovxm.unknownback.dto.request.IDRequest;
 import uz.akramovxm.unknownback.dto.request.TaskRequest;
+import uz.akramovxm.unknownback.dto.response.ListResponse;
 import uz.akramovxm.unknownback.dto.response.Response;
 import uz.akramovxm.unknownback.dto.view.admin.AdminTaskDTO;
 import uz.akramovxm.unknownback.entity.Task;
@@ -30,7 +31,7 @@ public class TaskController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Response getAll(
+    public ListResponse getAll(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "search", defaultValue = "") String search
@@ -39,7 +40,7 @@ public class TaskController {
 
         List<AdminTaskDTO> tasks = result.hits().stream().map(taskMapper::toAdminTaskDTO).toList();
 
-        return new Response(HttpStatus.OK.name(), tasks, result.total().hitCount(), page, size);
+        return new ListResponse(HttpStatus.OK.name(), tasks, result.total().hitCount(), page, size);
     }
 
     @Validated(OnCreate.class)
@@ -65,9 +66,9 @@ public class TaskController {
     @PreAuthorize("hasAuthority('DELETE_TASK')")
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public Response delete(@Valid @RequestBody IDRequest request) {
+    public ListResponse delete(@Valid @RequestBody IDRequest request) {
         taskService.delete(request);
 
-        return new Response(HttpStatus.OK.name());
+        return new ListResponse(HttpStatus.OK.name());
     }
 }

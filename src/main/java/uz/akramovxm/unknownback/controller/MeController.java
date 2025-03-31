@@ -3,49 +3,45 @@ package uz.akramovxm.unknownback.controller;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import uz.akramovxm.unknownback.dto.request.MeRequest;
 import uz.akramovxm.unknownback.dto.request.UpdatePasswordRequest;
-import uz.akramovxm.unknownback.dto.request.UserRequest;
 import uz.akramovxm.unknownback.dto.response.Response;
+import uz.akramovxm.unknownback.dto.view.UserDTO;
 import uz.akramovxm.unknownback.entity.User;
-import uz.akramovxm.unknownback.mapper.UserMapper;
-import uz.akramovxm.unknownback.marker.OnUpdate;
-import uz.akramovxm.unknownback.service.UserService;
+import uz.akramovxm.unknownback.factory.UserDTOFactory;
+import uz.akramovxm.unknownback.service.MeService;
 
-@Validated
 @RestController
 @RequestMapping("/me")
 public class MeController {
     @Autowired
-    private UserService userService;
+    private MeService meService;
     @Autowired
-    private UserMapper userMapper;
+    private UserDTOFactory userDTOFactory;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Response getMe(Authentication authentication) {
-        User user = userService.getByEmail(authentication.getName());
+    public Response<UserDTO> getMe() {
+        User user = meService.getCurrentUser();
 
-        return new Response(HttpStatus.OK.name(), userMapper.toUserDTO(user));
+        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
     }
 
-    @Validated(OnUpdate.class)
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public Response updateMe(@Valid @RequestBody UserRequest request, Authentication authentication) {
-        User user = userService.update(request, authentication);
+    public Response<UserDTO> updateMe(@Valid @RequestBody MeRequest request) {
+        User user = meService.update(request);
 
-        return new Response(HttpStatus.OK.name(), userMapper.toUserDTO(user));
+        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
     }
 
     @PutMapping("/update-password")
     @ResponseStatus(HttpStatus.OK)
-    public Response updatePassword(@Valid @RequestBody UpdatePasswordRequest request, Authentication authentication) {
-        userService.updatePassword(request, authentication);
+    public Response<UserDTO> updatePassword(@Valid @RequestBody UpdatePasswordRequest request) {
+        meService.updatePassword(request);
 
-        return new Response(HttpStatus.OK.name());
+        return new Response<>(HttpStatus.OK.name());
     }
 }

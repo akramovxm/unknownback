@@ -6,9 +6,9 @@ import java.util.Set;
 
 @Getter
 public enum Role {
+    SUPERADMIN(Set.of(Authority.values())),
     ADMIN(Set.of(Authority.values())),
-    TEACHER(Set.of()),
-    PUPIL(Set.of());
+    PUPIL(Set.of(Authority.GET_USER, Authority.GET_TOPIC, Authority.GET_TASK, Authority.GET_SOURCE));
 
     final Set<Authority> authorities;
 

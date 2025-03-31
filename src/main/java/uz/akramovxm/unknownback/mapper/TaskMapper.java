@@ -25,6 +25,7 @@ public class TaskMapper {
                 .contentRu(task.getContentRu())
                 .level(task.getLevel())
                 .type(task.getType())
+                .rowAnswers(task.isRowAnswers())
                 .topic(topicMapper.toAdminTopicTreeDTO(task.getTopic()))
                 .source(sourceMapper.toAdminSourceDTO(task.getSource()))
                 .answers(task.getAnswers().stream().map(answerMapper::toAdminAnswerDTO).toList())

@@ -1,4 +1,4 @@
-package uz.akramovxm.unknownback.dto.request;
+package uz.akramovxm.unknownback.dto.request.auth;
 
 import lombok.*;
 
@@ -6,14 +6,13 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRequest {
+public class RegisterRequest {
     private String firstName;
     private String lastName;
     private String email;
-    private String role;
+    private String password;
     private String phoneNumber;
     private String birthDate;
-    private Boolean locked;
 
     public void setFirstName(String firstName) {
         this.firstName = firstName != null ? firstName.trim() : null;
@@ -24,8 +23,8 @@ public class UserRequest {
     public void setEmail(String email) {
         this.email = email != null ? email.trim() : null;
     }
-    public void setRole(String role) {
-        this.role = role != null ? role.trim().toUpperCase() : null;
+    public void setPassword(String password) {
+        this.password = password != null ? password.trim() : null;
     }
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber != null ? phoneNumber.trim() : null;

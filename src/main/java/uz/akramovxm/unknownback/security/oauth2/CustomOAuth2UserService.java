@@ -48,7 +48,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             if (user.isLocked()) {
                 throw new OAuth2AuthenticationProcessingException("User account is locked");
             }
-            user = userService.update(user, userRequest, oAuth2UserInfo);
+            user = userService.updateFully(user, userRequest, oAuth2UserInfo);
         } catch (ResourceNotFoundException e) {
             user = userService.create(userRequest, oAuth2UserInfo);
         }
