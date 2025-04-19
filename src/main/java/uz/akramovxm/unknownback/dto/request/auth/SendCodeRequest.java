@@ -15,4 +15,8 @@ public class SendCodeRequest {
     @NotBlank(message = "email must not be empty")
     @Email(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", message = "email is not valid")
     private String email;
+
+    public void setEmail(String email) {
+        this.email = email != null ? email.trim() : null;
+    }
 }

@@ -28,51 +28,32 @@ public class TopicController {
     @Autowired
     private TopicMapper topicMapper;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public ListResponse getAll(@RequestParam(value = "search", defaultValue = "") String search) {
-        List<AdminTopicDTO> topics = topicService.findAll(search).stream()
-                .map(topicMapper::toAdminTopicDTO).toList();
-
-        return new ListResponse(HttpStatus.OK.name(), topics);
-    }
-
-    @GetMapping("/as-tree")
-    @ResponseStatus(HttpStatus.OK)
-    public ListResponse getAllAsTree() {
-        List<Topic> flatList = topicService.findAllOrdered();
-        
-        List<AdminTopicTreeDTO> topics = topicMapper.buildTopicTree(flatList);
-
-        return new ListResponse(HttpStatus.OK.name(), topics);
-    }
-
     @PreAuthorize("hasAuthority('CREATE_TOPIC')")
     @Validated(OnCreate.class)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response create(@Valid @RequestBody TopicRequest request) {
+    public Response<AdminTopicTreeDTO> create(@Valid @RequestBody TopicRequest request) {
         Topic topic = topicService.create(request);
 
-        return new Response(HttpStatus.CREATED.name(), topicMapper.toAdminTopicTreeDTO(topic));
+        return new Response<>(HttpStatus.CREATED.name(), topicMapper.toAdminTopicTreeDTO(topic));
     }
 
     @PreAuthorize("hasAuthority('UPDATE_TOPIC')")
     @Validated(OnUpdate.class)
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response update(@Valid @RequestBody TopicRequest request, @PathVariable Long id) {
+    public Response<AdminTopicTreeDTO> update(@Valid @RequestBody TopicRequest request, @PathVariable Long id) {
         Topic topic = topicService.update(request, id);
 
-        return new Response(HttpStatus.CREATED.name(), topicMapper.toAdminTopicTreeDTO(topic));
+        return new Response<>(HttpStatus.CREATED.name(), topicMapper.toAdminTopicTreeDTO(topic));
     }
 
     @PreAuthorize("hasAuthority('DELETE_TOPIC')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ListResponse delete(@PathVariable Long id) {
+    public Response<AdminTopicTreeDTO> delete(@PathVariable Long id) {
         topicService.deleteById(id);
 
-        return new ListResponse(HttpStatus.OK.name());
+        return new Response<>(HttpStatus.OK.name());
     }
 }

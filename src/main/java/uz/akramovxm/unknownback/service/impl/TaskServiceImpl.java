@@ -2,7 +2,6 @@ package uz.akramovxm.unknownback.service.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.hibernate.search.engine.search.predicate.dsl.SearchPredicateFactory;
 import org.hibernate.search.engine.search.query.SearchResult;
 import org.hibernate.search.engine.search.sort.dsl.SortOrder;
 import org.hibernate.search.mapper.orm.Search;
@@ -15,10 +14,7 @@ import uz.akramovxm.unknownback.entity.*;
 import uz.akramovxm.unknownback.exception.RequestBodyNotValidException;
 import uz.akramovxm.unknownback.exception.ResourceNotFoundException;
 import uz.akramovxm.unknownback.repository.TaskRepository;
-import uz.akramovxm.unknownback.service.AnswerService;
-import uz.akramovxm.unknownback.service.SourceService;
-import uz.akramovxm.unknownback.service.TaskService;
-import uz.akramovxm.unknownback.service.TopicService;
+import uz.akramovxm.unknownback.service.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +27,8 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskRepository taskRepository;
     @Autowired
+    private SubjectService subjectService;
+    @Autowired
     private TopicService topicService;
     @Autowired
     private SourceService sourceService;
@@ -40,33 +38,27 @@ public class TaskServiceImpl implements TaskService {
     private EntityManager entityManager;
 
     @Override
-    public SearchResult<Task> getAll(String search, int page, int size) {
+    public SearchResult<Task> findAllBySubjectId(String search, int page, int size, Long subjectId) {
         SearchSession session = Search.session(entityManager);
 
-        SearchResult<Task> result;
+        return session.search(Task.class)
+                .where(f -> {
+                    var bool = f.bool();
 
-        if (search == null || search.trim().isEmpty()) {
-            result = session.search(Task.class)
-                    .where(SearchPredicateFactory::matchAll)
-                    .sort(f -> f.field("createdAt_sort")
-                            .order(SortOrder.DESC))
-                    .fetch(size * page, size);
-        } else {
-            result = session.search(Task.class)
-                    .where(f -> f.phrase()
-                            .fields(
-                                    "contentUz",
-                                    "contentRu",
-                                    "answers.valueUz",
-                                    "answers.valueRu"
-                            ).matching(search)
-                    )
-                    .sort(f -> f.field("createdAt_sort")
-                            .order(SortOrder.DESC))
-                    .fetch(size * page, size);
-        }
+                    if (search != null && !search.trim().isEmpty()) {
+                        bool.must(f.simpleQueryString()
+                                .fields("contentUz", "contentRu", "answers.valueUz", "answers.valueRu")
+                                .matching(search));
+                    }
 
-        return result;
+                    if (subjectId != null) {
+                        bool.must(f.match().field("subject.id").matching(subjectId));
+                    }
+
+                    return bool;
+                })
+                .sort(f -> f.field("createdAt_sort").order(SortOrder.DESC))
+                .fetch(size * page, size);
     }
 
     @Override
@@ -104,6 +96,10 @@ public class TaskServiceImpl implements TaskService {
         }
         if (request.getRowAnswers() != null) {
             task.setRowAnswers(request.getRowAnswers());
+        }
+        if (request.getSubjectId() != null) {
+            Subject subject = subjectService.getById(request.getSubjectId());
+            task.setSubject(subject);
         }
         if (request.getTopicId() != null) {
             Topic topic = topicService.getById(request.getTopicId());
@@ -169,6 +165,10 @@ public class TaskServiceImpl implements TaskService {
         }
         if (request.getRowAnswers() != null) {
             task.setRowAnswers(request.getRowAnswers());
+        }
+        if (request.getSubjectId() != null) {
+            Subject subject = subjectService.getById(request.getSubjectId());
+            task.setSubject(subject);
         }
         if (request.getTopicId() != null) {
             Topic topic = topicService.getById(request.getTopicId());

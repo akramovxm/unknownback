@@ -10,11 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.akramovxm.unknownback.dto.request.TopicRequest;
-import uz.akramovxm.unknownback.dto.request.TopicSeqRequest;
 import uz.akramovxm.unknownback.entity.Topic;
 import uz.akramovxm.unknownback.exception.RequestBodyNotValidException;
 import uz.akramovxm.unknownback.exception.ResourceNotFoundException;
 import uz.akramovxm.unknownback.repository.TopicRepository;
+import uz.akramovxm.unknownback.service.SubjectService;
 import uz.akramovxm.unknownback.service.TopicService;
 
 import java.util.*;
@@ -23,32 +23,38 @@ import java.util.*;
 public class TopicServiceImpl implements TopicService {
     @Autowired
     private TopicRepository topicRepository;
+    @Autowired
+    private SubjectService subjectService;
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public List<Topic> findAllOrdered() {
-        return topicRepository.findAllOrdered();
+    public List<Topic> findAllBySubjectId(String search, Long subjectId) {
+        SearchSession session = Search.session(entityManager);
+
+        return session.search(Topic.class)
+                .where(f -> {
+                    var bool = f.bool();
+
+                    if (search != null && !search.trim().isEmpty()) {
+                        bool.must(f.bool()
+                                .should(f.wildcard().field("titleUz").matching("*" + search + "*"))
+                                .should(f.wildcard().field("titleRu").matching("*" + search + "*")));
+                    }
+
+                    if (subjectId != null) {
+                        bool.must(f.match().field("subject.id").matching(subjectId));
+                    }
+
+                    return bool;
+                })
+                .fetchAll()
+                .hits();
     }
 
     @Override
-    public List<Topic> findAll(String search) {
-        SearchSession session = Search.session(entityManager);
-
-        SearchResult<Topic> result;
-
-        if (search != null && search.trim().isEmpty()) {
-            result = session.search(Topic.class)
-                    .where(SearchPredicateFactory::matchAll)
-                    .fetchAll();
-        } else {
-            result = session.search(Topic.class)
-                    .where(f -> f.bool()
-                            .should(f.wildcard().fields("titleUz", "titleRu").matching("*" + search + "*")))
-                    .fetchAll();
-        }
-
-        return result.hits();
+    public List<Topic> findAllBySubjectIdOrdered(Long subjectId) {
+        return topicRepository.findAllBySubjectIdOrderBySeqAsc(subjectId);
     }
 
     @Override
@@ -70,31 +76,34 @@ public class TopicServiceImpl implements TopicService {
 
         Map<String, String> errors = new HashMap<>();
 
-        if (request.getTitleUz() != null && !request.getTitleUz().trim().isEmpty()) {
-            if (topicRepository.existsByTitleUz(request.getTitleUz())) {
-                errors.put("titleUz", "exists");
-            } else {
-                topic.setTitleUz(request.getTitleUz());
-            }
+        if (topicRepository.existsByTitleUz(request.getTitleUz())) {
+            errors.put("titleUz", "exists");
+        } else {
+            topic.setTitleUz(request.getTitleUz());
         }
-        if (request.getTitleRu() != null && !request.getTitleRu().trim().isEmpty()) {
-            if (topicRepository.existsByTitleRu(request.getTitleRu())) {
-                errors.put("titleRu", "exists");
-            } else {
-                topic.setTitleRu(request.getTitleRu());
-            }
+        if (topicRepository.existsByTitleRu(request.getTitleRu())) {
+            errors.put("titleRu", "exists");
+        } else {
+            topic.setTitleRu(request.getTitleRu());
         }
+
+        topic.setSubject(subjectService.getById(request.getSubjectId()));
+
+        Topic parent = null;
+        if (request.getParentId() != null) {
+            parent = getById(request.getParentId());
+            topic.setParent(parent);
+        }
+
+        int seq = (parent == null)
+                ? topicRepository.findMaxSeqWhereParentIsNull(request.getSubjectId())
+                : topicRepository.findMaxSeqByParent(parent, request.getSubjectId());
+
+        topic.setSeq(seq + 1);
 
         if (!errors.isEmpty()) {
             throw new RequestBodyNotValidException(errors);
         }
-
-        if (request.getParentId() != null) {
-            Topic parent = getById(request.getParentId());
-            topic.setParent(parent);
-        }
-
-        topic.setSeq(1); //i must fix this case (sequence)!!!
 
         return topicRepository.save(topic);
     }

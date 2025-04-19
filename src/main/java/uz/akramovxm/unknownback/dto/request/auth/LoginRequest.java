@@ -19,4 +19,12 @@ public class LoginRequest {
     @NotNull(message = "password must not be null")
     @NotBlank(message = "password must not be empty")
     private String password;
+
+    public void setEmail(String email) {
+        this.email = email != null ? email.trim() : null;
+    }
+
+    public void setPassword(String password) {
+        this.password = password != null ? password.trim() : null;
+    }
 }

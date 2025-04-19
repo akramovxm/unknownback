@@ -36,6 +36,10 @@ public class Task extends BaseEntity {
     @Column(nullable = false)
     private boolean rowAnswers = false;
 
+    @IndexedEmbedded(includePaths = "id")
+    @ManyToOne(optional = false)
+    private Subject subject;
+
     @ManyToOne
     private Topic topic;
 

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,6 +30,13 @@ public class Topic extends BaseEntity {
 
     @Column(nullable = false)
     private Integer seq;
+
+    @IndexedEmbedded(includePaths = "id")
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(optional = false)
+    private Subject subject;
 
     @JsonIgnore
     @ToString.Exclude

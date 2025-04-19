@@ -2,17 +2,20 @@ package uz.akramovxm.unknownback.service;
 
 
 import uz.akramovxm.unknownback.dto.request.auth.*;
+import uz.akramovxm.unknownback.entity.VerifyToken;
+
+import java.time.LocalDateTime;
 
 public interface AuthService {
     String login(LoginRequest request);
 
-    void register(RegisterRequest request);
+    LocalDateTime register(RegisterRequest request);
 
     void verifyRegistration(VerifyRequest request);
 
-    String verifyRecovery(VerifyRequest request);
+    VerifyToken verifyRecovery(VerifyRequest request);
 
-    void sendCode(SendCodeRequest request);
+    LocalDateTime sendCode(SendCodeRequest request);
 
     void setPassword(SetPasswordRequest request);
 }

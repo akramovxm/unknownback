@@ -38,10 +38,11 @@ public class MeServiceImpl implements MeService {
 
         Map<String, String> errors = new HashMap<>();
 
-        userValidationService.validateFirstName(request.getFirstName(), errors);
-        userValidationService.validateLastName(request.getLastName(), errors);
-        userValidationService.validatePhoneNumber(request.getPhoneNumber(), errors, user.getId());
-        userValidationService.validateBirthDate(request.getBirthDate(), errors);
+        userValidationService
+                .validateFirstName(request.getFirstName(), errors)
+                .validateLastName(request.getLastName(), errors)
+                .validatePhoneNumber(request.getPhoneNumber(), errors, user.getId())
+                .validateBirthDate(request.getBirthDate(), errors);
 
         if (!errors.isEmpty()) {
             throw new RequestBodyNotValidException(errors);
@@ -50,7 +51,12 @@ public class MeServiceImpl implements MeService {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setPhoneNumber(request.getPhoneNumber());
-        user.setBirthDate(LocalDate.parse(request.getBirthDate()));
+
+        LocalDate birthDate = null;
+        if (request.getBirthDate() != null) {
+            birthDate = LocalDate.parse(request.getBirthDate());
+        }
+        user.setBirthDate(birthDate);
 
         return userService.save(user);
     }

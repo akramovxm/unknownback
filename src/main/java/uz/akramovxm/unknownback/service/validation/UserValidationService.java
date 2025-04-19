@@ -1,7 +1,7 @@
 package uz.akramovxm.unknownback.service.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import uz.akramovxm.unknownback.entity.Role;
 import uz.akramovxm.unknownback.entity.User;
 import uz.akramovxm.unknownback.repository.UserRepository;
@@ -12,7 +12,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-@Component
+@Service
 public class UserValidationService {
     @Autowired
     private UserRepository userRepository;
@@ -21,30 +21,33 @@ public class UserValidationService {
 
     private static final Pattern PATTERN = Pattern.compile("[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}");
 
-    public void validateFirstName(String firstName, Map<String, String> errors) {
+    public UserValidationService validateFirstName(String firstName, Map<String, String> errors) {
         if (firstName == null) {
             errors.put("firstName", "null");
         } else if (firstName.isEmpty()) {
             errors.put("firstName", "empty");
         }
+        return this;
     }
-    public void validateLastName(String lastName, Map<String, String> errors) {
+    public UserValidationService validateLastName(String lastName, Map<String, String> errors) {
         if (lastName == null) {
             errors.put("lastName", "null");
         } else if (lastName.isEmpty()) {
             errors.put("lastName", "empty");
         }
+        return this;
     }
 
-    public void validatePassword(String password, Map<String, String> errors) {
+    public UserValidationService validatePassword(String password, Map<String, String> errors) {
         if (password == null) {
             errors.put("password", "null");
         } else if (password.isEmpty()) {
             errors.put("password", "empty");
         }
+        return this;
     }
 
-    public void validateEmail(String email, Map<String, String> errors) {
+    public UserValidationService validateEmail(String email, Map<String, String> errors) {
         if (email == null) {
             errors.put("email", "null");
         } else if (email.isEmpty()) {
@@ -57,9 +60,10 @@ public class UserValidationService {
                 errors.put("email", "exists");
             }
         }
+        return this;
     }
 
-    public void validateEmail(String email, Map<String, String> errors, Long id) {
+    public UserValidationService validateEmail(String email, Map<String, String> errors, Long id) {
         if (email == null) {
             errors.put("email", "null");
         } else if (email.isEmpty()) {
@@ -72,25 +76,28 @@ public class UserValidationService {
                 errors.put("email", "exists");
             }
         }
+        return this;
     }
 
-    public void validatePhoneNumber(String phoneNumber, Map<String, String> errors) {
+    public UserValidationService validatePhoneNumber(String phoneNumber, Map<String, String> errors) {
         if (phoneNumber != null) {
             if (userRepository.existsByPhoneNumberAndPhoneNumberNotNull(phoneNumber)) {
                 errors.put("phoneNumber", "exists");
             }
         }
+        return this;
     }
 
-    public void validatePhoneNumber(String phoneNumber, Map<String, String> errors, Long id) {
+    public UserValidationService validatePhoneNumber(String phoneNumber, Map<String, String> errors, Long id) {
         if (phoneNumber != null) {
             if (userRepository.existsByPhoneNumberAndPhoneNumberNotNullAndIdNot(phoneNumber, id)) {
                 errors.put("phoneNumber", "exists");
             }
         }
+        return this;
     }
 
-    public void validateBirthDate(String birthDate, Map<String, String> errors) {
+    public UserValidationService validateBirthDate(String birthDate, Map<String, String> errors) {
         if (birthDate != null) {
             try {
                 LocalDate localDate = LocalDate.parse(birthDate);
@@ -98,9 +105,10 @@ public class UserValidationService {
                 errors.put("birthDate", "matDatepickerParse");
             }
         }
+        return this;
     }
 
-    public void validateRole(String role, Map<String, String> errors) {
+    public UserValidationService validateRole(String role, Map<String, String> errors) {
         if (role == null) {
             errors.put("role", "null");
         } else {
@@ -110,7 +118,7 @@ public class UserValidationService {
                 r = Role.valueOf(role);
             } catch (IllegalArgumentException e) {
                 errors.put("role", "invalid");
-                return;
+                return this;
             }
 
             User currentUser = currentUserService.getCurrentUser();
@@ -118,5 +126,6 @@ public class UserValidationService {
                 errors.put("role", "notAllowed");
             }
         }
+        return this;
     }
 }

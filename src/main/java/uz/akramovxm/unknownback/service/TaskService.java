@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TaskService {
-    SearchResult<Task> getAll(String search, int page, int size);
+    SearchResult<Task> findAllBySubjectId(String search, int page, int size, Long subjectId);
 
     List<Task> getByTopicId(Long topicId);
 

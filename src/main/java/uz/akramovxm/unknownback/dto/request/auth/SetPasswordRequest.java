@@ -17,4 +17,12 @@ public class SetPasswordRequest {
     @NotNull(message = "password must not be null")
     @NotBlank(message = "password must not be empty")
     private String password;
+
+    public void setToken(String token) {
+        this.token = token != null ? token.trim() : null;
+    }
+
+    public void setPassword(String password) {
+        this.password = password != null ? password.trim() : null;
+    }
 }

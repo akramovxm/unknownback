@@ -22,4 +22,8 @@ public class VerifyCode extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDateTime expiresAt;
+
+    public VerifyCode(User user) {
+        this.user = user;
+    }
 }

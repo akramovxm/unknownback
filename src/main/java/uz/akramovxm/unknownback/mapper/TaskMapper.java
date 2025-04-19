@@ -8,6 +8,8 @@ import uz.akramovxm.unknownback.entity.Task;
 @Component
 public class TaskMapper {
     @Autowired
+    private SubjectMapper subjectMapper;
+    @Autowired
     private TopicMapper topicMapper;
     @Autowired
     private SourceMapper sourceMapper;
@@ -26,6 +28,7 @@ public class TaskMapper {
                 .level(task.getLevel())
                 .type(task.getType())
                 .rowAnswers(task.isRowAnswers())
+                .subject(subjectMapper.toAdminSubjectDTO(task.getSubject()))
                 .topic(topicMapper.toAdminTopicTreeDTO(task.getTopic()))
                 .source(sourceMapper.toAdminSourceDTO(task.getSource()))
                 .answers(task.getAnswers().stream().map(answerMapper::toAdminAnswerDTO).toList())

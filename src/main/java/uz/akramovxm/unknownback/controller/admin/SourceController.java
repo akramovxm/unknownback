@@ -29,39 +29,39 @@ public class SourceController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ListResponse getAll() {
+    public ListResponse<AdminSourceDTO> getAll() {
         List<AdminSourceDTO> sources = sourceService.findAll().stream()
                 .map(sourceMapper::toAdminSourceDTO).toList();
 
-        return new ListResponse(HttpStatus.OK.name(), sources);
+        return new ListResponse<>(HttpStatus.OK.name(), sources);
     }
 
     @Validated(OnCreate.class)
     @PreAuthorize("hasAuthority('CREATE_SOURCE')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response create(@Valid @RequestBody SourceRequest request) {
+    public Response<AdminSourceDTO> create(@Valid @RequestBody SourceRequest request) {
         Source source = sourceService.create(request);
 
-        return new Response(HttpStatus.CREATED.name(), sourceMapper.toAdminSourceDTO(source));
+        return new Response<>(HttpStatus.CREATED.name(), sourceMapper.toAdminSourceDTO(source));
     }
 
     @Validated(OnUpdate.class)
     @PreAuthorize("hasAuthority('UPDATE_SOURCE')")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response update(@Valid @RequestBody SourceRequest request, @PathVariable Long id) {
+    public Response<AdminSourceDTO> update(@Valid @RequestBody SourceRequest request, @PathVariable Long id) {
         Source source = sourceService.update(request, id);
 
-        return new Response(HttpStatus.OK.name(), sourceMapper.toAdminSourceDTO(source));
+        return new Response<>(HttpStatus.OK.name(), sourceMapper.toAdminSourceDTO(source));
     }
 
     @PreAuthorize("hasAuthority('DELETE_SOURCE')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ListResponse delete(@PathVariable Long id) {
+    public ListResponse<AdminSourceDTO> delete(@PathVariable Long id) {
         sourceService.deleteById(id);
 
-        return new ListResponse(HttpStatus.OK.name());
+        return new ListResponse<>(HttpStatus.OK.name());
     }
 }

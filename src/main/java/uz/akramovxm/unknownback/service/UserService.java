@@ -42,8 +42,4 @@ public interface UserService {
     void lock(IDRequest request);
 
     void unlock(IDRequest request);
-
-    void setEnabled(User user, boolean enabled);
-
-    void setPassword(User user, String password);
 }

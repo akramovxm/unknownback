@@ -15,4 +15,12 @@ public class VerifyRequest {
     @NotNull(message = "verifyCode must not be null")
     @NotBlank(message = "verifyCode must not be empty")
     private String verifyCode;
+
+    public void setEmail(String email) {
+        this.email = email != null ? email.trim() : null;
+    }
+
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode != null ? verifyCode.trim() : null;
+    }
 }

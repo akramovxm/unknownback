@@ -7,11 +7,17 @@ import uz.akramovxm.unknownback.repository.VerifyCodeRepository;
 import uz.akramovxm.unknownback.service.VerifyCodeService;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class VerifyCodeServiceImpl implements VerifyCodeService {
     @Autowired
     private VerifyCodeRepository verifyCodeRepository;
+
+    @Override
+    public Optional<VerifyCode> findByUserId(Long userId) {
+        return verifyCodeRepository.findByUserId(userId);
+    }
 
     @Override
     public VerifyCode save(VerifyCode verifyCode) {

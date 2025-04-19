@@ -14,4 +14,8 @@ public class SourceRequest {
     @NotNull(message = "name must not be null", groups = OnCreate.class)
     @NotBlank(message = "name must not be empty")
     private String name;
+
+    public void setName(String name) {
+        this.name = name != null ? name.trim() : null;
+    }
 }

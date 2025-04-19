@@ -19,14 +19,22 @@ public class SendCodeServiceImpl implements SendCodeService {
     private MessageService messageService;
 
     @Override
-    public void send(User user) {
+    public LocalDateTime send(User user) {
         Random random = new Random();
         String code = String.format("%04d", random.nextInt(10000));
 
-        VerifyCode verifyCode = new VerifyCode(user, code, LocalDateTime.now().plusMinutes(10));
+        VerifyCode verifyCode = verifyCodeService.findByUserId(user.getId()).orElse(
+                new VerifyCode(user)
+        );
+
+        verifyCode.setCode(code);
+
+        verifyCode.setExpiresAt(LocalDateTime.now().plusMinutes(10));
 
         verifyCodeService.save(verifyCode);
 
         messageService.sendVerifyCode(user.getEmail(), code);
+
+        return verifyCode.getExpiresAt();
     }
 }

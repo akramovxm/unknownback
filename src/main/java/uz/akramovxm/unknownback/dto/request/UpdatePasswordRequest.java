@@ -17,4 +17,11 @@ public class UpdatePasswordRequest {
     @NotNull(message = "newPassword must not be null")
     @NotBlank(message = "newPassword must not be empty")
     private String newPassword;
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword != null ? oldPassword.trim() : null;
+    }
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword != null ? newPassword.trim() : null;
+    }
 }

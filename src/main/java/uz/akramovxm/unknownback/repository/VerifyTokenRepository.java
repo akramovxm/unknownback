@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface VerifyTokenRepository extends JpaRepository<VerifyToken, Long> {
+    Optional<VerifyToken> findByUserId(Long userId);
     Optional<VerifyToken> findByToken(String token);
     void deleteAllByExpiresAtBefore(LocalDateTime dateTime);
 }

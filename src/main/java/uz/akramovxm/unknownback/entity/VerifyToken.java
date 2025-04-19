@@ -22,4 +22,8 @@ public class VerifyToken extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDateTime expiresAt;
+
+    public VerifyToken(User user) {
+        this.user = user;
+    }
 }

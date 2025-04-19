@@ -18,6 +18,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskRequest {
+    @NotNull(message = "subjectId must not be null", groups = OnCreate.class)
+    @Positive(message = "subjectId must be positive")
+    private Long subjectId;
+
     @Positive(message = "topicId must be positive")
     private Long topicId;
 
@@ -44,4 +48,12 @@ public class TaskRequest {
     @NotNull(message = "type must not be null", groups = OnCreate.class)
     @Size(min = 4, max = 4, message = "answers must be 4")
     private List<AnswerRequest> answers;
+
+    public void setContentUz(String contentUz) {
+        this.contentUz = contentUz != null ? contentUz.trim() : null;
+    }
+    public void setContentRu(String contentRu) {
+        this.contentRu = contentRu != null ? contentRu.trim() : null;
+    }
+
 }

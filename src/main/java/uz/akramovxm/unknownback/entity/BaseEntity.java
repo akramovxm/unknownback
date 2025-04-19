@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 @Data
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
+    @GenericField
     @GenericField(name = "id_sort", sortable = Sortable.YES)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

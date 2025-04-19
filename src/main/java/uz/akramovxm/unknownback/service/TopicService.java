@@ -1,17 +1,16 @@
 package uz.akramovxm.unknownback.service;
 
 import uz.akramovxm.unknownback.dto.request.TopicRequest;
-import uz.akramovxm.unknownback.dto.request.TopicSeqRequest;
 import uz.akramovxm.unknownback.entity.Topic;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public interface TopicService {
-    List<Topic> findAllOrdered();
+    List<Topic> findAllBySubjectId(String search, Long subjectId);
 
-    List<Topic> findAll(String search);
+    List<Topic> findAllBySubjectIdOrdered(Long subjectId);
 
     Optional<Topic> findById(Long id);
 

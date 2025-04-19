@@ -27,4 +27,11 @@ public class AnswerRequest {
 
     @NotNull(message = "correct must not be null", groups = OnCreate.class)
     private boolean correct;
+
+    public void setValueUz(String valueUz) {
+        this.valueUz = valueUz != null ? valueUz.trim() : null;
+    }
+    public void setValueRu(String valueRu) {
+        this.valueRu = valueRu != null ? valueRu.trim() : null;
+    }
 }

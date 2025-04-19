@@ -3,6 +3,7 @@ package uz.akramovxm.unknownback.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.akramovxm.unknownback.dto.request.auth.*;
@@ -25,6 +26,8 @@ public class AuthServiceImpl implements AuthService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JWTProvider jwtProvider;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private UserService userService;
     @Autowired
@@ -50,10 +53,10 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public void register(RegisterRequest request) {
+    public LocalDateTime register(RegisterRequest request) {
         User user = userService.create(request);
 
-        sendCodeService.send(user);
+        return sendCodeService.send(user);
     }
 
     @Transactional
@@ -63,32 +66,37 @@ public class AuthServiceImpl implements AuthService {
 
         verify(user, request);
 
-        userService.setEnabled(user, true);
+        user.setEnabled(true);
+
+        userService.save(user);
     }
 
     @Override
-    public String verifyRecovery(VerifyRequest request) {
+    public VerifyToken verifyRecovery(VerifyRequest request) {
         User user = userService.getByEmail(request.getEmail());
 
         verify(user, request);
 
         String token = UUID.randomUUID().toString();
 
-        VerifyToken verifyToken = new VerifyToken(user, token, LocalDateTime.now().plusMinutes(10));
+        VerifyToken verifyToken = verifyTokenService.findByUserId(user.getId()).orElse(
+                new VerifyToken(user)
+        );
 
-        verifyTokenService.save(verifyToken);
+        verifyToken.setToken(token);
+        verifyToken.setExpiresAt(LocalDateTime.now().plusMinutes(10));
 
-        return token;
+        return verifyTokenService.save(verifyToken);
     }
 
     @Transactional
     @Override
-    public void sendCode(SendCodeRequest request) {
+    public LocalDateTime sendCode(SendCodeRequest request) {
         User user = userService.findByEmail(request.getEmail()).orElseThrow(
                 () -> new RequestBodyNotValidException(Map.of("email", "notFound"))
         );
 
-        sendCodeService.send(user);
+        return sendCodeService.send(user);
     }
 
     @Transactional
@@ -102,7 +110,9 @@ public class AuthServiceImpl implements AuthService {
 
         user.setVerifyToken(null);
 
-        userService.setPassword(user, request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        userService.save(user);
     }
 
     private void verify(User user, VerifyRequest request) {

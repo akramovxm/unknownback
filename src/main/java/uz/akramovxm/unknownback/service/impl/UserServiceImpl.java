@@ -106,12 +106,13 @@ public class UserServiceImpl implements UserService {
     public User create(RegisterRequest request) {
         Map<String, String> errors = new HashMap<>();
 
-        userValidationService.validateFirstName(request.getFirstName(), errors);
-        userValidationService.validateLastName(request.getLastName(), errors);
-        userValidationService.validateEmail(request.getEmail(), errors);
-        userValidationService.validatePassword(request.getPassword(), errors);
-        userValidationService.validatePhoneNumber(request.getPhoneNumber(), errors);
-        userValidationService.validateBirthDate(request.getBirthDate(), errors);
+        userValidationService
+                .validateFirstName(request.getFirstName(), errors)
+                .validateLastName(request.getLastName(), errors)
+                .validateEmail(request.getEmail(), errors)
+                .validatePassword(request.getPassword(), errors)
+                .validatePhoneNumber(request.getPhoneNumber(), errors)
+                .validateBirthDate(request.getBirthDate(), errors);
 
         if (!errors.isEmpty()) {
             throw new RequestBodyNotValidException(errors);
@@ -152,7 +153,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserRequest request) {
-        validateRequest(request, null);
+        Map<String, String> errors = new HashMap<>();
+
+        userValidationService
+                .validateFirstName(request.getFirstName(), errors)
+                .validateLastName(request.getLastName(), errors)
+                .validateEmail(request.getEmail(), errors)
+                .validatePhoneNumber(request.getPhoneNumber(), errors)
+                .validateBirthDate(request.getBirthDate(), errors)
+                .validateRole(request.getRole(), errors);
+
+        if (!errors.isEmpty()) {
+            throw new RequestBodyNotValidException(errors);
+        }
 
         User user = User.builder()
                 .firstName(request.getFirstName())
@@ -192,7 +205,19 @@ public class UserServiceImpl implements UserService {
     public User updateFully(UserRequest request, Long id) {
         User user = getById(id);
 
-        validateRequest(request, id);
+        Map<String, String> errors = new HashMap<>();
+
+        userValidationService
+                .validateFirstName(request.getFirstName(), errors)
+                .validateLastName(request.getLastName(), errors)
+                .validateEmail(request.getEmail(), errors, id)
+                .validatePhoneNumber(request.getPhoneNumber(), errors, id)
+                .validateBirthDate(request.getBirthDate(), errors)
+                .validateRole(request.getRole(), errors);
+
+        if (!errors.isEmpty()) {
+            throw new RequestBodyNotValidException(errors);
+        }
 
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -223,7 +248,7 @@ public class UserServiceImpl implements UserService {
             user.setLastName(request.getLastName());
         }
         if (request.getEmail() != null && !request.getEmail().isEmpty()) {
-            if (userRepository.existsByPhoneNumberAndPhoneNumberNotNullAndIdNot(request.getEmail(), id)) {
+            if (userRepository.existsByEmailAndIdNot(request.getEmail(), id)) {
                 errors.put("email", "exists");
             } else {
                 user.setEmail(request.getEmail());
@@ -300,39 +325,5 @@ public class UserServiceImpl implements UserService {
         users.forEach(user -> user.setLocked(false));
 
         userRepository.saveAll(users);
-    }
-
-    @Override
-    public void setEnabled(User user, boolean enabled) {
-        user.setEnabled(enabled);
-
-        userRepository.save(user);
-    }
-
-    @Override
-    public void setPassword(User user, String password) {
-        user.setPassword(passwordEncoder.encode(password));
-
-        userRepository.save(user);
-    }
-
-    private void validateRequest(UserRequest request, Long id) {
-        Map<String, String> errors = new HashMap<>();
-
-        userValidationService.validateFirstName(request.getFirstName(), errors);
-        userValidationService.validateLastName(request.getLastName(), errors);
-        if (id != null) {
-            userValidationService.validateEmail(request.getEmail(), errors, id);
-            userValidationService.validatePhoneNumber(request.getPhoneNumber(), errors, id);
-        } else {
-            userValidationService.validateEmail(request.getEmail(), errors);
-            userValidationService.validatePhoneNumber(request.getPhoneNumber(), errors);
-        }
-        userValidationService.validateBirthDate(request.getBirthDate(), errors);
-        userValidationService.validateRole(request.getRole(), errors);
-
-        if (!errors.isEmpty()) {
-            throw new RequestBodyNotValidException(errors);
-        }
     }
 }

@@ -18,6 +18,7 @@ public class AdminTaskDTO {
     private Level level;
     private TaskType type;
     private boolean rowAnswers;
+    private AdminSubjectDTO subject;
     private AdminTopicTreeDTO topic;
     private AdminSourceDTO source;
     private List<AdminAnswerDTO> answers;

@@ -15,6 +15,11 @@ public class VerifyTokenServiceImpl implements VerifyTokenService {
     private VerifyTokenRepository verifyTokenRepository;
 
     @Override
+    public Optional<VerifyToken> findByUserId(Long userId) {
+        return verifyTokenRepository.findByUserId(userId);
+    }
+
+    @Override
     public Optional<VerifyToken> findByToken(String token) {
         return verifyTokenRepository.findByToken(token);
     }
