@@ -18,8 +18,8 @@ import uz.akramovxm.unknownback.service.TaskService;
 
 @Validated
 @RestController
-@RequestMapping("/tasks")
-public class TaskController {
+@RequestMapping("/admin/tasks")
+public class AdminTaskController {
     @Autowired
     private TaskService taskService;
     @Autowired

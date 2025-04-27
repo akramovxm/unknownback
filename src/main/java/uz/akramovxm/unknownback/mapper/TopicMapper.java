@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uz.akramovxm.unknownback.dto.view.admin.AdminTopicDTO;
 import uz.akramovxm.unknownback.dto.view.admin.AdminTopicTreeDTO;
-import uz.akramovxm.unknownback.dto.view.admin.BasicTopicDTO;
+import uz.akramovxm.unknownback.dto.view.TopicDTO;
 import uz.akramovxm.unknownback.entity.Topic;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class TopicMapper {
                 .titleUz(topic.getTitleUz())
                 .titleRu(topic.getTitleRu())
                 .seq(topic.getSeq())
-                .parent(toBasicTopicDTO(topic.getParent()))
+                .parent(toTopicDTO(topic.getParent()))
                 .prevId(topic.getPrevId())
                 .nextId(topic.getNextId())
                 .createdAt(topic.getCreatedAt())
@@ -66,7 +66,7 @@ public class TopicMapper {
                 .titleUz(topic.getTitleUz())
                 .titleRu(topic.getTitleRu())
                 .seq(topic.getSeq())
-                .parent(toBasicTopicDTO(topic.getParent()))
+                .parent(toTopicDTO(topic.getParent()))
                 .children(topic.getChildren().stream().map(this::toAdminTopicTreeDTO).toList())
                 .prevId(topic.getPrevId())
                 .nextId(topic.getNextId())
@@ -94,13 +94,16 @@ public class TopicMapper {
                 .build();
     }
 
-    public BasicTopicDTO toBasicTopicDTO(Topic topic) {
+    public TopicDTO toTopicDTO(Topic topic) {
         if (topic == null) return null;
 
-        return BasicTopicDTO.builder()
+        return TopicDTO.builder()
                 .id(topic.getId())
                 .titleUz(topic.getTitleUz())
                 .titleRu(topic.getTitleRu())
+                .seq(topic.getSeq())
+                .prevId(topic.getPrevId())
+                .nextId(topic.getNextId())
                 .build();
     }
 }

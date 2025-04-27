@@ -1,7 +1,6 @@
 package uz.akramovxm.unknownback.dto.view.admin;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import uz.akramovxm.unknownback.dto.view.*;
 import uz.akramovxm.unknownback.entity.Level;
 import uz.akramovxm.unknownback.entity.TaskType;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class AdminTaskDTO {
+public class AdminTaskSnapshotDTO {
     private Long id;
     private String contentUz;
     private String contentRu;
@@ -21,7 +20,8 @@ public class AdminTaskDTO {
     private AdminSubjectDTO subject;
     private AdminTopicDTO topic;
     private AdminSourceDTO source;
-    private List<AdminAnswerDTO> answers;
+    private List<AdminAnswerSnapshotDTO> answers;
+    private Long taskId;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private UserDTO createdBy;

@@ -20,8 +20,8 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/subjects")
-public class SubjectController {
+@RequestMapping("/admin/subjects")
+public class AdminSubjectController {
     @Autowired
     private SubjectService subjectService;
     @Autowired

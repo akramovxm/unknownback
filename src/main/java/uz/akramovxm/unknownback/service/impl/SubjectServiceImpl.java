@@ -21,7 +21,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public List<Subject> findAll() {
-        return subjectRepository.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+        return subjectRepository.findAll(Sort.by(Sort.Direction.ASC, "createdAt"));
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.hibernate.search.engine.search.sort.dsl.SortOrder;
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.akramovxm.unknownback.dto.request.IDRequest;
 import uz.akramovxm.unknownback.dto.request.TaskRequest;
@@ -64,6 +65,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getByTopicId(Long topicId) {
         return taskRepository.findAllByTopicId(topicId);
+    }
+
+    @Override
+    public List<Task> getBySubjectId(Long subjectId, Pageable pageable) {
+        return taskRepository.findAllBySubjectId(subjectId, pageable);
     }
 
     @Override

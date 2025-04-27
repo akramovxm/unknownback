@@ -13,8 +13,8 @@ import uz.akramovxm.unknownback.service.TaskService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/subjects")
-public class SubjectTaskController {
+@RequestMapping("/admin/subjects")
+public class AdminSubjectTaskController {
     @Autowired
     private TaskService taskService;
     @Autowired

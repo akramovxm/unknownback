@@ -7,9 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import uz.akramovxm.unknownback.dto.request.TopicRequest;
-import uz.akramovxm.unknownback.dto.response.ListResponse;
 import uz.akramovxm.unknownback.dto.response.Response;
-import uz.akramovxm.unknownback.dto.view.admin.AdminTopicDTO;
 import uz.akramovxm.unknownback.dto.view.admin.AdminTopicTreeDTO;
 import uz.akramovxm.unknownback.entity.Topic;
 import uz.akramovxm.unknownback.mapper.TopicMapper;
@@ -17,12 +15,10 @@ import uz.akramovxm.unknownback.marker.OnCreate;
 import uz.akramovxm.unknownback.marker.OnUpdate;
 import uz.akramovxm.unknownback.service.TopicService;
 
-import java.util.List;
-
 @Validated
 @RestController
-@RequestMapping("/topics")
-public class TopicController {
+@RequestMapping("/admin/topics")
+public class AdminTopicController {
     @Autowired
     private TopicService topicService;
     @Autowired

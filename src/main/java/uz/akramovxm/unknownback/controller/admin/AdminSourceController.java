@@ -20,8 +20,8 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/sources")
-public class SourceController {
+@RequestMapping("/admin/sources")
+public class AdminSourceController {
     @Autowired
     private SourceService sourceService;
     @Autowired

@@ -13,8 +13,8 @@ import uz.akramovxm.unknownback.service.TopicService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/subjects")
-public class SubjectTopicController {
+@RequestMapping("/admin/subjects")
+public class AdminSubjectTopicController {
     @Autowired
     private TopicService topicService;
     @Autowired

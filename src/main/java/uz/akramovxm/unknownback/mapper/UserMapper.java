@@ -39,7 +39,6 @@ public class UserMapper {
                 .phoneNumber(user.getPhoneNumber())
                 .birthDate(user.getBirthDate())
                 .role(user.getRole())
-                .provider(user.getProvider())
                 .build();
     }
 }

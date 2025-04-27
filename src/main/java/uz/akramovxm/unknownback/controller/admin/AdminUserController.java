@@ -11,26 +11,26 @@ import uz.akramovxm.unknownback.dto.request.IDRequest;
 import uz.akramovxm.unknownback.dto.request.UserRequest;
 import uz.akramovxm.unknownback.dto.response.ListResponse;
 import uz.akramovxm.unknownback.dto.response.Response;
-import uz.akramovxm.unknownback.dto.view.UserDTO;
+import uz.akramovxm.unknownback.dto.view.admin.AdminUserDTO;
 import uz.akramovxm.unknownback.entity.User;
-import uz.akramovxm.unknownback.factory.UserDTOFactory;
+import uz.akramovxm.unknownback.mapper.UserMapper;
 import uz.akramovxm.unknownback.service.UserService;
 
 import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/admin/users")
+public class AdminUserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private UserDTOFactory userDTOFactory;
+    private UserMapper userMapper;
 
     @PreAuthorize("hasAuthority('GET_USER')")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ListResponse<UserDTO> getUsers(
+    public ListResponse<AdminUserDTO> getUsers(
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size,
             @RequestParam(value = "sortBy", defaultValue = "createdAt_sort") String sortBy,
@@ -39,7 +39,7 @@ public class UserController {
     ) {
         SearchResult<User> result = userService.getAll(search, page, size, sortBy, sortType);
 
-        List<UserDTO> users = result.hits().stream().map(userDTOFactory::create).toList();
+        List<AdminUserDTO> users = result.hits().stream().map(userMapper::toAdminUserDTO).toList();
 
         return new ListResponse<>(HttpStatus.OK.name(), users, result.total().hitCount(), page, size);
     }
@@ -47,43 +47,43 @@ public class UserController {
     @PreAuthorize("hasAuthority('GET_USER')")
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response<UserDTO> getAll(@PathVariable Long id) {
+    public Response<AdminUserDTO> getAll(@PathVariable Long id) {
         User user = userService.getById(id);
 
-        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
+        return new Response<>(HttpStatus.OK.name(), userMapper.toAdminUserDTO(user));
     }
 
     @PreAuthorize("hasAuthority('CREATE_USER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Response<UserDTO> create(@RequestBody UserRequest request) {
+    public Response<AdminUserDTO> create(@RequestBody UserRequest request) {
         User user = userService.create(request);
 
-        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
+        return new Response<>(HttpStatus.OK.name(), userMapper.toAdminUserDTO(user));
     }
 
     @PreAuthorize("hasAuthority('UPDATE_USER')")
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response<UserDTO> updateFully(@RequestBody UserRequest request, @PathVariable Long id) {
+    public Response<AdminUserDTO> updateFully(@RequestBody UserRequest request, @PathVariable Long id) {
         User user = userService.updateFully(request, id);
 
-        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
+        return new Response<>(HttpStatus.OK.name(), userMapper.toAdminUserDTO(user));
     }
 
     @PreAuthorize("hasAuthority('UPDATE_USER')")
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response<UserDTO> updatePartially(@RequestBody UserRequest request, @PathVariable Long id) {
+    public Response<AdminUserDTO> updatePartially(@RequestBody UserRequest request, @PathVariable Long id) {
         User user = userService.updatePartially(request, id);
 
-        return new Response<>(HttpStatus.OK.name(), userDTOFactory.create(user));
+        return new Response<>(HttpStatus.OK.name(), userMapper.toAdminUserDTO(user));
     }
 
     @PreAuthorize("hasAuthority('DELETE_USER')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Response<UserDTO> deleteById(@PathVariable Long id) {
+    public Response<AdminUserDTO> deleteById(@PathVariable Long id) {
         userService.deleteById(id);
 
         return new Response<>(HttpStatus.OK.name());
@@ -92,7 +92,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('DELETE_USER')")
     @DeleteMapping
     @ResponseStatus(HttpStatus.OK)
-    public Response<UserDTO> deleteByIds(@Valid @RequestBody IDRequest request) {
+    public Response<AdminUserDTO> deleteByIds(@Valid @RequestBody IDRequest request) {
         userService.delete(request);
 
         return new Response<>(HttpStatus.OK.name());
@@ -101,7 +101,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('UPDATE_USER')")
     @PutMapping("/lock")
     @ResponseStatus(HttpStatus.OK)
-    public Response<UserDTO> lockByIds(@Valid @RequestBody IDRequest request) {
+    public Response<AdminUserDTO> lockByIds(@Valid @RequestBody IDRequest request) {
         userService.lock(request);
 
         return new Response<>(HttpStatus.OK.name());
@@ -110,7 +110,7 @@ public class UserController {
     @PreAuthorize("hasAuthority('UPDATE_USER')")
     @PutMapping("/unlock")
     @ResponseStatus(HttpStatus.OK)
-    public Response<UserDTO> unlockByIds(@Valid @RequestBody IDRequest request) {
+    public Response<AdminUserDTO> unlockByIds(@Valid @RequestBody IDRequest request) {
         userService.unlock(request);
 
         return new Response<>(HttpStatus.OK.name());

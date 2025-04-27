@@ -1,6 +1,7 @@
 package uz.akramovxm.unknownback.service;
 
 import org.hibernate.search.engine.search.query.SearchResult;
+import org.springframework.data.domain.Pageable;
 import uz.akramovxm.unknownback.dto.request.IDRequest;
 import uz.akramovxm.unknownback.dto.request.TaskRequest;
 import uz.akramovxm.unknownback.entity.Task;
@@ -12,6 +13,8 @@ public interface TaskService {
     SearchResult<Task> findAllBySubjectId(String search, int page, int size, Long subjectId);
 
     List<Task> getByTopicId(Long topicId);
+
+    List<Task> getBySubjectId(Long subjectId, Pageable pageable);
 
     Optional<Task> findById(Long id);
 

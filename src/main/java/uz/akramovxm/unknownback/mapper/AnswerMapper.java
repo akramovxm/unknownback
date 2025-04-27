@@ -2,6 +2,7 @@ package uz.akramovxm.unknownback.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import uz.akramovxm.unknownback.dto.view.AnswerDTO;
 import uz.akramovxm.unknownback.dto.view.admin.AdminAnswerDTO;
 import uz.akramovxm.unknownback.entity.Answer;
 
@@ -22,6 +23,16 @@ public class AnswerMapper {
                 .updatedAt(answer.getUpdatedAt())
                 .createdBy(userMapper.toUserDTO(answer.getCreatedBy()))
                 .updatedBy(userMapper.toUserDTO(answer.getUpdatedBy()))
+                .build();
+    }
+
+    public AnswerDTO toAnswerDTO(Answer answer) {
+        if (answer == null) return null;
+
+        return AnswerDTO.builder()
+                .id(answer.getId())
+                .valueUz(answer.getValueUz())
+                .valueRu(answer.getValueRu())
                 .build();
     }
 }

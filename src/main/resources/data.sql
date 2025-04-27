@@ -1,7 +1,11 @@
 ----SUBJECT
 insert into subjects (id, title_uz, title_ru, created_at, updated_at)
 values (1, 'Kimyo', 'Химия', now(), now()),
-       (2, 'Biologiya', 'Биология', now(), now());
+       (2, 'Biologiya', 'Биология', now(), now()),
+       (3, 'O''zbek tili', 'Узбекский язык', now(), now()),
+       (4, 'Rus tili', 'Русский язык', now(), now()),
+       (5, 'Matematika', 'Математика', now(), now()),
+       (6, 'O''zbekiston tarixi', 'История Узбекистана', now(), now());
 
 alter sequence subjects_id_seq restart with 3;
 ----SUBJECT

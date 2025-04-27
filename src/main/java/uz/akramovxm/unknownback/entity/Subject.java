@@ -33,7 +33,4 @@ public class Subject extends BaseEntity {
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Task> tasks = new ArrayList<>();
-
-    @Transient
-    private long topicsCount;
 }
